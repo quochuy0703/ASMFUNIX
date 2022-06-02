@@ -38,7 +38,7 @@ export default class CardSalary extends Component {
             </div>
           </div>
         </div>
-        <div className="footer">
+        <div className="footer_card">
           <div className="footer_start">
             <div className="footer_start_dept">
               <p>

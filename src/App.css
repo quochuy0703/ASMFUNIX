@@ -88,7 +88,7 @@ address {
 .middle_content {
   height: 30%;
 }
-.footer {
+.footer_card {
   display: flex;
   flex-grow: 8;
   flex-direction: column;
@@ -100,7 +100,7 @@ address {
   padding: 5px;
   border: 1px solid gray;
 }
-.footer p {
+.footer_card p {
   margin: 0;
 }
 .footer_start {
