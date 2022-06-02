@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import dateFormat from "dateformat";
 
 export default class CardSalary extends Component {
   constructor(props) {
