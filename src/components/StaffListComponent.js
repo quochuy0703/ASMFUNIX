@@ -1,92 +1,146 @@
 import React, { Component } from "react";
 import { Card, CardImg, CardBody, CardTitle, Row } from "reactstrap";
-import dateFormat from "dateformat";
+import { Link } from "react-router-dom";
+
+import SearchStaff from "./SearchStaff";
+import SortStaff from "./SortStaff";
+import CardStaff from "./CardStaff";
 
 class StaffList extends Component {
   constructor(props) {
     super(props);
-    //state chứa:
-    //staffSelected lưu trạng thái nhân viên được chọn, giá trị ban đầu là null
     this.state = {
-      staffSelected: null,
+      searchWord: "",
+      orderBy: null,
+      sortDir: "asc",
     };
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleDir = this.handleDir.bind(this);
   }
-  //hàm render staff được chọn, dựa trên state
-  //tham số đầu vào là object nhân viên
-  //nếu tham số đầu vào là null thì sẽ hiện "bấn vào nhân viên để xem thông tin chi tiết"
-  renderStaffSelected(item) {
-    console.log(item);
-    if (item != null) {
-      return (
-        <div className="my-5">
-          <h2 className="text-center">Chi tiết nhân viên</h2>
-          <Card>
-            <div>
-              <div className="row">
-                <div className="text-center">
-                  <img className="avatar" src={item.image} />
-                  <h4>Họ và Tên: {item.name}</h4>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-6">
-                  <p>Ngày sinh: {dateFormat(item.doB, "dd/mm/yyyy")}</p>
-                  <p>
-                    Ngày vào công ty: {dateFormat(item.startDate, "dd/mm/yyyy")}
-                  </p>
-                  <p>Phòng ban: {item.department.name}</p>
-                </div>
-                <div className="col-6">
-                  <p>Số ngày nghỉ còn lại: {item.annualLeave}</p>
-                  <p>Số ngày làm thêm: {item.overTime}</p>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-      );
-    } else {
-      return <div>Bấm vào tên nhân viên để xem thông tin</div>;
-    }
+
+  handleSearch(value) {
+    console.log("staff", value);
+    this.setState({
+      searchWord: value,
+      orderBy: this.state.orderBy,
+      sortDir: this.state.sortDir,
+    });
+
+    // if (value) {
+    //   let temp = this.state.staffs.filter((item) => item.name === value);
+    //   this.setState({ staffs: temp });
+    // } else {
+    //   this.setState({ staffs: this.props.staffs });
+    // }
+  }
+
+  sortByDoB = function (a, b) {
+    var c = new Date(a.doB);
+    var d = new Date(b.doB);
+    return c - d;
+  };
+  sortByStartDate = function (a, b) {
+    var c = new Date(a.startDate);
+    var d = new Date(b.startDate);
+    return c - d;
+  };
+  sortByID = function (a, b) {
+    return Number(a.id) - Number(b.id);
+  };
+  sortByName = function (a, b) {
+    return a.name.localeCompare(b.name);
+  };
+  handleClick(code) {
+    console.log(code);
+
+    this.setState({
+      searchWord: this.state.searchWord,
+      orderBy: code,
+      sortDir: this.state.sortDir,
+    });
+  }
+  handleDir(code) {
+    this.setState({
+      searchWord: this.state.searchWord,
+      orderBy: this.state.orderBy,
+      sortDir: code,
+    });
+    console.log(this.state);
   }
   render() {
+    //search
+    let listTemp;
+    if (this.state.searchWord) {
+      listTemp = this.props.staffs.filter(
+        (item) => item.name === this.state.searchWord
+      );
+    } else {
+      listTemp = [...this.props.staffs];
+    }
+
+    //sort
+    if (this.state.orderBy) {
+      let sortFunc;
+      if (this.state.orderBy === "id") {
+        sortFunc = this.sortByID;
+      } else if (this.state.orderBy === "name") {
+        sortFunc = this.sortByName;
+      } else if (this.state.orderBy === "doB") {
+        sortFunc = this.sortByStartDate;
+      } else {
+        sortFunc = this.sortByDoB;
+      }
+      listTemp.sort(sortFunc);
+    }
+
+    //dsc
+    if (this.state.sortDir === "asc") {
+    } else {
+      listTemp.reverse();
+    }
+
     //list chứa danh sách nhân viên
-    const list = this.props.staffs.map((staff) => {
+    const list = listTemp.map((staff) => {
+      // return (
+      //   <div className="m-1">
+      //     <Card key={staff.id}>
+      //       <Link to={`staff/${staff.id}`}>
+      //         <CardImg
+      //           top
+      //           src={staff.image}
+      //           alt={staff.image}
+      //           className="avatar"
+      //         />
+      //         <CardBody className="text-center">
+      //           <CardTitle>
+      //             <strong>{staff.name}</strong>
+      //           </CardTitle>
+      //         </CardBody>
+      //       </Link>
+      //     </Card>
+      //   </div>
+      // );
       return (
-        <div>
-          <Card
-            key={staff.id}
-            // khi người dùng click vào card thì sẽ thay đổi state, và lưu thông tin của staff vào state
-            onClick={() => this.setState({ staffSelected: staff })}
-          >
-            <CardImg
-              top
-              src={staff.image}
-              alt={staff.image}
-              className="avatar"
-            />
-            <CardBody className="text-center">
-              <CardTitle>
-                <strong>{staff.name}</strong>
-              </CardTitle>
-            </CardBody>
-          </Card>
-        </div>
+        <Link style={{ textDecoration: "none" }} to={`staff/${staff.id}`}>
+          <CardStaff key={staff.id} staff={staff} />
+        </Link>
       );
     });
 
     return (
       <div className="container">
+        <h1>Nhân Viên</h1>
+        <div className="row">
+          <SearchStaff onSearch={this.handleSearch} />
+          <SortStaff onClick={this.handleClick} onHandleDir={this.handleDir} />
+        </div>
+
+        <hr />
         {/* render list nhân viên */}
-        <Row md={this.props.col} sm="2" xs="1">
+        <Row md="6" sm="2" xs="1">
           {list}
         </Row>
-        <div className="row">
-          {/* render nhân viên được chọn */}
-          <div className="col-md-12 col-sm-12 col-xs-12 text-center">
-            {this.renderStaffSelected(this.state.staffSelected)}
-          </div>
-        </div>
       </div>
     );
   }

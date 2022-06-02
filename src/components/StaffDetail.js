@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Card, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Link } from "react-router-dom";
+import dateFormat from "dateformat";
 
 class StaffDetail extends Component {
   constructor(props) {
@@ -7,28 +10,41 @@ class StaffDetail extends Component {
 
   render() {
     return (
-      <div className="my-5">
-        <h2 className="text-center">Chi tiết nhân viên</h2>
+      <div className="container">
+        <div className="row">
+          {/* <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/staff">Nhân Viên</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{this.props.staff.name}</BreadcrumbItem>
+          </Breadcrumb> */}
+          <nav class="breadcrumbs">
+            <a href="#home" class="breadcrumbs__item">
+              <Link to="/staff">Nhân Viên</Link>
+            </a>
+            <span class="breadcrumbs__item">{this.props.staff.name}</span>
+          </nav>
+        </div>
         <Card>
-          <div>
-            <div className="row">
-              <div className="text-center">
-                <img className="avatar" src={item.image} />
-                <h4>Họ và Tên: {item.name}</h4>
-              </div>
+          <div className="row">
+            <div className="col-md-3 col-sm-4 col-xs-12 text-center">
+              <img
+                src={this.props.staff.image}
+                alt={this.props.staff.image}
+                style={{ width: "auto", height: "100%" }}
+              />
             </div>
-            <div className="row">
-              <div className="col-6">
-                <p>Ngày sinh: {dateFormat(item.doB, "dd/mm/yyyy")}</p>
-                <p>
-                  Ngày vào công ty: {dateFormat(item.startDate, "dd/mm/yyyy")}
-                </p>
-                <p>Phòng ban: {item.department.name}</p>
-              </div>
-              <div className="col-6">
-                <p>Số ngày nghỉ còn lại: {item.annualLeave}</p>
-                <p>Số ngày làm thêm: {item.overTime}</p>
-              </div>
+
+            <div className="col-md-9 col-sm-8 col-xs-12">
+              <h4>Họ và Tên: {this.props.staff.name}</h4>
+              <p>Ngày sinh: {dateFormat(this.props.staff.doB, "dd/mm/yyyy")}</p>
+              <p>
+                Ngày vào công ty:{" "}
+                {dateFormat(this.props.staff.startDate, "dd/mm/yyyy")}
+              </p>
+              <p>Phòng ban: {this.props.staff.department.name}</p>
+              <p>Số ngày nghỉ còn lại: {this.props.staff.annualLeave}</p>
+              <p>Số ngày làm thêm: {this.props.staff.overTime}</p>
             </div>
           </div>
         </Card>
@@ -36,3 +52,5 @@ class StaffDetail extends Component {
     );
   }
 }
+
+export default StaffDetail;
