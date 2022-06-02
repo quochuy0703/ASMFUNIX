@@ -24,15 +24,15 @@ class SalaryDetail extends Component {
     this.handleDir = this.handleDir.bind(this);
   }
 
+  //xử lý  khi người dùng chọn sắp xếp theo ID hoặc mức lương
   handleClick(code) {
-    console.log(code);
-
     this.setState({
       searchWord: this.state.searchWord,
       orderBy: code,
       sortDir: this.state.sortDir,
     });
   }
+  //xử lý  khi người dùng chọn sắp xếp tăng dần hoặc giảm dần
   handleDir(code) {
     this.setState({
       searchWord: this.state.searchWord,
@@ -41,10 +41,11 @@ class SalaryDetail extends Component {
     });
     console.log(this.state);
   }
-
+  //xử lý sort theo ID
   sortByID = function (a, b) {
     return Number(a.id) - Number(b.id);
   };
+  //xử lý sort theo mức lương
   sortBySalary = function (a, b) {
     let aS = Number(a.salaryScale) * 3000000 + Number(a.overTime) * 200000;
     let bS = Number(b.salaryScale) * 3000000 + Number(b.overTime) * 200000;
@@ -53,7 +54,7 @@ class SalaryDetail extends Component {
 
   render() {
     let listTemp = [...this.props.staffs];
-    //sort
+    //xử lý sort
     if (this.state.orderBy) {
       let sortFunc;
       if (this.state.orderBy === "id") {
@@ -64,7 +65,7 @@ class SalaryDetail extends Component {
       listTemp.sort(sortFunc);
     }
 
-    //dsc
+    //sắp xếp tăng dần hoặc giảm dần
     if (this.state.sortDir === "asc") {
     } else {
       listTemp.reverse();
@@ -72,29 +73,6 @@ class SalaryDetail extends Component {
 
     //list chứa danh sách nhân viên
     const list = listTemp.map((staff) => {
-      // return (
-      //   <div className="my-1 col-md-4 col-sm-6 col-xs-12">
-      //     <Card key={staff.id}>
-      //       <CardBody className="text-center">
-      //         <CardTitle>
-      //           <strong>{staff.name}</strong>
-      //         </CardTitle>
-      //         <CardText>
-      //           <p>Mã nhân viên: {staff.id}</p>
-      //           <p>Hệ số lương: {staff.salaryScale}</p>
-      //           <p>Số ngày làm thêm: {staff.overTime}</p>
-      //           <p>
-      //             Lương:{" "}
-      //             {Math.trunc(
-      //               Number(staff.salaryScale) * 3000000 +
-      //                 Number(staff.overTime) * 200000
-      //             )}
-      //           </p>
-      //         </CardText>
-      //       </CardBody>
-      //     </Card>
-      //   </div>
-      // );
       return (
         <div className="my-1 col-md-4 col-sm-6 col-xs-12">
           <CardSalary staff={staff} />

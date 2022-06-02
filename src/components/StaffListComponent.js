@@ -18,58 +18,54 @@ class StaffList extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleDir = this.handleDir.bind(this);
   }
-
+  //xử lý khi người dùng nhấn nút search
   handleSearch(value) {
-    console.log("staff", value);
     this.setState({
       searchWord: value,
       orderBy: this.state.orderBy,
       sortDir: this.state.sortDir,
     });
-
-    // if (value) {
-    //   let temp = this.state.staffs.filter((item) => item.name === value);
-    //   this.setState({ staffs: temp });
-    // } else {
-    //   this.setState({ staffs: this.props.staffs });
-    // }
   }
-
-  sortByDoB = function (a, b) {
-    var c = new Date(a.doB);
-    var d = new Date(b.doB);
-    return c - d;
-  };
-  sortByStartDate = function (a, b) {
-    var c = new Date(a.startDate);
-    var d = new Date(b.startDate);
-    return c - d;
-  };
-  sortByID = function (a, b) {
-    return Number(a.id) - Number(b.id);
-  };
-  sortByName = function (a, b) {
-    return a.name.localeCompare(b.name);
-  };
+  //xử lý khi người dùng chọn sắp xếp theo ID, name, ngày sinh hoặc ngày vào làm
   handleClick(code) {
-    console.log(code);
-
     this.setState({
       searchWord: this.state.searchWord,
       orderBy: code,
       sortDir: this.state.sortDir,
     });
   }
+  //xử lý khi người dùng chọn sắp xếp theo tăng dần hoặc giảm dần
   handleDir(code) {
     this.setState({
       searchWord: this.state.searchWord,
       orderBy: this.state.orderBy,
       sortDir: code,
     });
-    console.log(this.state);
   }
+  //các hàm xử lý sắp xếp
+  //sắp xếp theo ngày sinh
+  sortByDoB = function (a, b) {
+    var c = new Date(a.doB);
+    var d = new Date(b.doB);
+    return c - d;
+  };
+  //sắp xếp theo ngày vào làm
+  sortByStartDate = function (a, b) {
+    var c = new Date(a.startDate);
+    var d = new Date(b.startDate);
+    return c - d;
+  };
+  //sắp xếp theo ID
+  sortByID = function (a, b) {
+    return Number(a.id) - Number(b.id);
+  };
+  //sắp xếp theo name
+  sortByName = function (a, b) {
+    return a.name.localeCompare(b.name);
+  };
+
   render() {
-    //search
+    //xử lý tìm kiếm theo tên
     let listTemp;
     if (this.state.searchWord) {
       listTemp = this.props.staffs.filter(
@@ -79,7 +75,7 @@ class StaffList extends Component {
       listTemp = [...this.props.staffs];
     }
 
-    //sort
+    //sắp xếp theo ID, name, ngày sinh hoặc ngày vào làm
     if (this.state.orderBy) {
       let sortFunc;
       if (this.state.orderBy === "id") {
@@ -94,7 +90,7 @@ class StaffList extends Component {
       listTemp.sort(sortFunc);
     }
 
-    //dsc
+    //xử lý sắp xếp tăng dần hoặc giảm dần
     if (this.state.sortDir === "asc") {
     } else {
       listTemp.reverse();
@@ -102,25 +98,6 @@ class StaffList extends Component {
 
     //list chứa danh sách nhân viên
     const list = listTemp.map((staff) => {
-      // return (
-      //   <div className="m-1">
-      //     <Card key={staff.id}>
-      //       <Link to={`staff/${staff.id}`}>
-      //         <CardImg
-      //           top
-      //           src={staff.image}
-      //           alt={staff.image}
-      //           className="avatar"
-      //         />
-      //         <CardBody className="text-center">
-      //           <CardTitle>
-      //             <strong>{staff.name}</strong>
-      //           </CardTitle>
-      //         </CardBody>
-      //       </Link>
-      //     </Card>
-      //   </div>
-      // );
       return (
         <Link style={{ textDecoration: "none" }} to={`staff/${staff.id}`}>
           <CardStaff key={staff.id} staff={staff} />
