@@ -19,9 +19,9 @@ class StaffDetail extends Component {
             <BreadcrumbItem active>{this.props.staff.name}</BreadcrumbItem>
           </Breadcrumb> */}
           <nav class="breadcrumbs">
-            <a href="#home" class="breadcrumbs__item">
+            <span class="breadcrumbs__item">
               <Link to="/staff">Nhân Viên</Link>
-            </a>
+            </span>
             <span class="breadcrumbs__item">{this.props.staff.name}</span>
           </nav>
         </div>

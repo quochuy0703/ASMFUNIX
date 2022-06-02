@@ -18,7 +18,7 @@ class SearchStaff extends Component {
         <InputGroup>
           <Input
             innerRef={this.searchInput}
-            placeholder="Nhập tên cần để tìm kiếm"
+            placeholder="Nhập tên để tìm kiếm, để trống về danh sách ban đầu"
           />
           <Button onClick={this.handleSearch}>Search</Button>
         </InputGroup>
