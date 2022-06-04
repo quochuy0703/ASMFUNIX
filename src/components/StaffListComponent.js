@@ -68,8 +68,8 @@ class StaffList extends Component {
     //xử lý tìm kiếm theo tên
     let listTemp;
     if (this.state.searchWord) {
-      listTemp = this.props.staffs.filter(
-        (item) => item.name === this.state.searchWord
+      listTemp = this.props.staffs.filter((item) =>
+        item.name.toLowerCase().includes(this.state.searchWord.toLowerCase())
       );
     } else {
       listTemp = [...this.props.staffs];
