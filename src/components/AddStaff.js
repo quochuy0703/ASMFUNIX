@@ -68,7 +68,7 @@ class AddStaff extends Component {
   }
 
   handleClickAdd() {
-    console.log(new Date(this.state.doB).toLocaleDateString());
+    alert(new Date(this.state.doB).toISOString());
   }
 
   validate(name, doB, startDate) {
