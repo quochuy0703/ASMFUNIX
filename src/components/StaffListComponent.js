@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import SearchStaff from "./SearchStaff";
 import SortStaff from "./SortStaff";
 import CardStaff from "./CardStaff";
+import AddStaff from "./AddStaff";
 
 class StaffList extends Component {
   constructor(props) {
@@ -111,6 +112,7 @@ class StaffList extends Component {
         <div className="row">
           <SearchStaff onSearch={this.handleSearch} />
           <SortStaff onClick={this.handleClick} onHandleDir={this.handleDir} />
+          <AddStaff />
         </div>
 
         <hr />
