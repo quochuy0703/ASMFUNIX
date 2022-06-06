@@ -29,27 +29,49 @@ class Main extends Component {
     let arrayStaff = JSON.parse(JSON.stringify(this.state.staffs));
     arrayStaff.push(staff);
 
+    let arrayDepts = JSON.parse(JSON.stringify(this.state.depts));
+
+    arrayDepts = arrayDepts.map((item) => {
+      if (item.name === staff.department.name) {
+        item.numberOfStaff++;
+      }
+      return item;
+    });
+
+    console.log(arrayDepts);
+
     this.setState(
       (prevState) => ({
         staffs: arrayStaff,
         nextID: newID,
+        depts: arrayDepts,
       }),
       () => {
-        console.log(this.state.staffs);
         localStorage.setItem("staffs", JSON.stringify(this.state.staffs));
+        localStorage.setItem("depts", JSON.stringify(this.state.depts));
       }
     );
   }
 
   componentDidMount() {
     console.log("did mount");
-    let data = localStorage.getItem("staffs");
-    if (data) {
+    //lấy dữ liệu staff từ localStorage
+    let dataStaff = localStorage.getItem("staffs");
+    if (dataStaff) {
       this.setState({
-        staffs: JSON.parse(data),
+        staffs: JSON.parse(dataStaff),
       });
     }
 
+    //lấy dữ liệu depts từ localStorage
+    let dataDept = localStorage.getItem("depts");
+    if (dataDept) {
+      this.setState({
+        depts: JSON.parse(dataDept),
+      });
+    }
+
+    //tính toán id tiếp theo cho staff
     const listID = this.state.staffs.map((item) => item.id);
     const max = Math.max(...listID);
     console.log(max);
