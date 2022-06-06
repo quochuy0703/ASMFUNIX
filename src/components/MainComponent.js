@@ -9,7 +9,6 @@ import SalaryDetail from "./SalaryDetail";
 import DeptComponent from "./DeptComponent";
 import { connect } from "react-redux";
 
-import { STAFFS, DEPARTMENTS } from "../shared/staffs";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 
 const mapStateToProps = (state) => {
