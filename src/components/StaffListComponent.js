@@ -14,10 +14,12 @@ class StaffList extends Component {
       searchWord: "",
       orderBy: null,
       sortDir: "asc",
+      addStaff: [],
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleDir = this.handleDir.bind(this);
+    this.handleAddStaff = this.handleAddStaff.bind(this);
   }
   //xử lý khi người dùng nhấn nút search
   handleSearch(value) {
@@ -35,6 +37,7 @@ class StaffList extends Component {
       sortDir: this.state.sortDir,
     });
   }
+
   //xử lý khi người dùng chọn sắp xếp theo tăng dần hoặc giảm dần
   handleDir(code) {
     this.setState({
@@ -43,6 +46,7 @@ class StaffList extends Component {
       sortDir: code,
     });
   }
+
   //các hàm xử lý sắp xếp
   //sắp xếp theo ngày sinh
   sortByDoB = function (a, b) {
@@ -65,6 +69,10 @@ class StaffList extends Component {
     return a.name.localeCompare(b.name);
   };
 
+  //
+  handleAddStaff(staff) {
+    this.props.onAddStaff(staff);
+  }
   render() {
     //xử lý tìm kiếm theo tên
     let listTemp;
@@ -112,7 +120,7 @@ class StaffList extends Component {
         <div className="row">
           <SearchStaff onSearch={this.handleSearch} />
           <SortStaff onClick={this.handleClick} onHandleDir={this.handleDir} />
-          <AddStaff />
+          <AddStaff onAddStaff={this.handleAddStaff} />
         </div>
 
         <hr />

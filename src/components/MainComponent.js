@@ -17,7 +17,45 @@ class Main extends Component {
     this.state = {
       staffs: STAFFS,
       depts: DEPARTMENTS,
+      nextID: 0,
     };
+
+    this.handleAddStaff = this.handleAddStaff.bind(this);
+  }
+
+  handleAddStaff(staff) {
+    const newID = this.state.nextID + 1;
+    staff = { ...staff, id: newID };
+    let arrayStaff = JSON.parse(JSON.stringify(this.state.staffs));
+    arrayStaff.push(staff);
+
+    this.setState(
+      (prevState) => ({
+        staffs: arrayStaff,
+        nextID: newID,
+      }),
+      () => {
+        console.log(this.state.staffs);
+        localStorage.setItem("staffs", JSON.stringify(this.state.staffs));
+      }
+    );
+  }
+
+  componentDidMount() {
+    console.log("did mount");
+    let data = localStorage.getItem("staffs");
+    if (data) {
+      this.setState({
+        staffs: JSON.parse(data),
+      });
+    }
+
+    const listID = this.state.staffs.map((item) => item.id);
+    const max = Math.max(...listID);
+    console.log(max);
+    this.setState({
+      nextID: max,
+    });
   }
 
   render() {
@@ -39,7 +77,12 @@ class Main extends Component {
           <Route
             exact
             path="/staff"
-            component={() => <StaffList staffs={this.state.staffs} />}
+            component={() => (
+              <StaffList
+                onAddStaff={this.handleAddStaff}
+                staffs={this.state.staffs}
+              />
+            )}
           />
           <Route exact path="/staff/:id" component={staffWithID} />
           <Route

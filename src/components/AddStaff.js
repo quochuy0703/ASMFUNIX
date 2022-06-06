@@ -22,7 +22,7 @@ class AddStaff extends Component {
       doB: "",
       salaryScale: 1,
       startDate: "",
-      department: "",
+      department: { name: "IT" },
       annualLeave: 0,
       overTime: 0,
       image: "/assets/images/alberto.png",
@@ -55,20 +55,36 @@ class AddStaff extends Component {
     this.setState({
       touched: { ...this.state.touched, [code]: true },
     });
-    console.log(this.state);
   };
 
   handleChange(evt) {
     const value = evt.target.value;
-    this.setState({
-      [evt.target.name]: value,
-    });
-
-    console.log(this.state);
+    if (evt.target.name === "department") {
+      this.setState({
+        [evt.target.name]: { name: value },
+      });
+    } else {
+      this.setState({
+        [evt.target.name]: value,
+      });
+    }
   }
 
-  handleClickAdd() {
-    alert(new Date(this.state.doB).toISOString());
+  handleClickAdd(e) {
+    e.preventDefault();
+    const newStaff = {
+      name: this.state.name,
+      doB: new Date(this.state.doB).toISOString(),
+      salaryScale: this.state.salaryScale,
+      startDate: new Date(this.state.startDate).toISOString(),
+      department: this.state.department,
+      annualLeave: this.state.annualLeave,
+      overTime: this.state.overTime,
+      salary: "",
+      image: "/assets/images/alberto.png",
+    };
+    this.props.onAddStaff(newStaff);
+    this.toggleModal();
   }
 
   validate(name, doB, startDate) {
@@ -103,7 +119,7 @@ class AddStaff extends Component {
         <Modal isOpen={this.state.isOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Thêm nhân viên</ModalHeader>
           <ModalBody>
-            <Form onSubmit={() => this.handleClickAdd()}>
+            <Form onSubmit={(e) => this.handleClickAdd(e)}>
               <FormGroup row>
                 <Col md={4}>
                   <Label htmlFor="name">Tên</Label>
@@ -160,11 +176,19 @@ class AddStaff extends Component {
               </FormGroup>
               <FormGroup row>
                 <Col md={4}>
-                  <Label htmlFor="Department">Phòng ban</Label>
+                  <Label htmlFor="department">Phòng ban</Label>
                 </Col>
                 <Col md={8}>
-                  <Input type="select" name="Department">
+                  <Input
+                    type="select"
+                    name="department"
+                    value={this.state.department}
+                    onChange={this.handleChange}
+                  >
                     <option>IT</option>
+                    <option>Sale</option>
+                    <option>HR</option>
+                    <option>Marketing</option>
                     <option>Finance</option>
                   </Input>
                 </Col>
