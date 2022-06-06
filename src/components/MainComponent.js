@@ -7,16 +7,21 @@ import StaffDetail from "./StaffDetail";
 import SalaryDetail from "./SalaryDetail";
 
 import DeptComponent from "./DeptComponent";
+import { connect } from "react-redux";
 
 import { STAFFS, DEPARTMENTS } from "../shared/staffs";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+
+const mapStateToProps = (state) => {
+  return { staffs: state.staffs, depts: state.depts, nextID: state.nextID };
+};
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      staffs: STAFFS,
-      depts: DEPARTMENTS,
+      staffs: this.props.staffs,
+      depts: this.props.depts,
       nextID: 0,
     };
 
@@ -30,6 +35,8 @@ class Main extends Component {
     arrayStaff.push(staff);
 
     let arrayDepts = JSON.parse(JSON.stringify(this.state.depts));
+
+    console.log(this.state.depts);
 
     arrayDepts = arrayDepts.map((item) => {
       if (item.name === staff.department.name) {
@@ -125,4 +132,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));

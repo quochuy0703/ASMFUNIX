@@ -77,7 +77,7 @@ class AddStaff extends Component {
       doB: new Date(this.state.doB).toISOString(),
       salaryScale: this.state.salaryScale,
       startDate: new Date(this.state.startDate).toISOString(),
-      department: this.state.department,
+      department: { name: this.state.department },
       annualLeave: this.state.annualLeave,
       overTime: this.state.overTime,
       salary: "",

@@ -6,6 +6,7 @@ import SearchStaff from "./SearchStaff";
 import SortStaff from "./SortStaff";
 import CardStaff from "./CardStaff";
 import AddStaff from "./AddStaff";
+import AddStaffRedux from "./AddStaffRedux";
 
 class StaffList extends Component {
   constructor(props) {
@@ -120,7 +121,8 @@ class StaffList extends Component {
         <div className="row">
           <SearchStaff onSearch={this.handleSearch} />
           <SortStaff onClick={this.handleClick} onHandleDir={this.handleDir} />
-          <AddStaff onAddStaff={this.handleAddStaff} />
+          {/* <AddStaff onAddStaff={this.handleAddStaff} /> */}
+          <AddStaffRedux onAddStaff={this.handleAddStaff} />
         </div>
 
         <hr />
