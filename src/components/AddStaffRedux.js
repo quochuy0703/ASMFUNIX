@@ -57,6 +57,9 @@ class AddStaffRedux extends Component {
   render() {
     const required = (val) => val && val.length;
     const maxLength = (len) => (val) => !val || val.length <= len;
+    const minLength = (len) => (val) => !val || val.length >= len;
+    const greatThan = (num) => (val) => !val || Number(val) >= num;
+    const lessThan = (num) => (val) => !val || Number(val) <= num;
     const isNumber = (val) => !isNaN(Number(val));
 
     return (
@@ -163,8 +166,14 @@ class AddStaffRedux extends Component {
                     id="salaryScale"
                     name="salaryScale"
                     className="form-control"
+                    placeholder="1.0 -> 3.0"
                     defaultValue={1}
-                    validators={{ required, isNumber }}
+                    validators={{
+                      required,
+                      isNumber,
+                      greatThan: greatThan(1.0),
+                      lessThan: lessThan(3.0),
+                    }}
                   />
                   <Errors
                     model=".salaryScale"
@@ -173,6 +182,8 @@ class AddStaffRedux extends Component {
                     messages={{
                       required: "Yêu cầu nhập",
                       isNumber: "Phải là một số",
+                      lessThan: "Phải nhỏ hơn 3.0",
+                      greatThan: "Phải lớn hơn 1.0",
                     }}
                   />
                 </Col>
@@ -187,6 +198,7 @@ class AddStaffRedux extends Component {
                     id="annualLeave"
                     name="annualLeave"
                     className="form-control"
+                    placeholder="1.0"
                     defaultValue={0}
                     validators={{ required, isNumber }}
                   />
