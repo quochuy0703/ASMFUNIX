@@ -71,27 +71,43 @@ class AddStaff extends Component {
 
   handleClickAdd(e) {
     e.preventDefault();
-    const newStaff = {
-      name: this.state.name,
-      doB: new Date(this.state.doB).toISOString(),
-      salaryScale: Number(this.state.salaryScale),
-      startDate: new Date(this.state.startDate).toISOString(),
-      department: { name: this.state.department.name },
-      annualLeave: Number(this.state.annualLeave),
-      overTime: Number(this.state.overTime),
-      salary: "",
-      image: "/assets/images/alberto.png",
-    };
-    this.props.onAddStaff(newStaff);
-    this.toggleModal();
+    if (
+      this.validate(
+        this.state.name,
+        this.state.doB,
+        this.state.startDate,
+        this.state.salaryScale,
+        this.state.annualLeave,
+        this.state.overTime
+      ).pass
+    ) {
+      const newStaff = {
+        name: this.state.name,
+        doB: new Date(this.state.doB).toISOString(),
+        salaryScale: Number(this.state.salaryScale),
+        startDate: new Date(this.state.startDate).toISOString(),
+        department: { name: this.state.department.name },
+        annualLeave: Number(this.state.annualLeave),
+        overTime: Number(this.state.overTime),
+        salary: "",
+        image: "/assets/images/alberto.png",
+      };
+      this.props.onAddStaff(newStaff);
+      this.toggleModal();
+    } else {
+      console.log("not pass");
+    }
   }
 
-  validate(name, doB, startDate, salaryScale) {
+  validate(name, doB, startDate, salaryScale, annualLeave, overTime) {
     const error = {
       name: "",
       doB: "",
       startDate: "",
       salaryScale: "",
+      annualLeave: "",
+      overTime: "",
+      pass: true,
     };
     //it hon 30 ky tu
     if (this.state.touched.name && this.state.name.length > 30) {
@@ -103,12 +119,28 @@ class AddStaff extends Component {
     if (this.state.touched.startDate && this.state.startDate === "") {
       error.startDate = "Yêu cầu nhập";
     }
+    if (this.state.touched.salaryScale && isNaN(Number(salaryScale)))
+      error.salaryScale = "Phải là một số";
     if (salaryScale && Number(salaryScale) > 3.0) {
       error.salaryScale = "Phải nhỏ hơn 3.0";
     }
     if (salaryScale && Number(salaryScale) < 1.0) {
       error.salaryScale = "Phải lớn hơn 1.0";
     }
+    if (this.state.touched.annualLeave && isNaN(Number(annualLeave)))
+      error.annualLeave = "Phải là một số";
+
+    if (this.state.touched.overTime && isNaN(Number(overTime)))
+      error.overTime = "Phải là một số";
+    for (let prop in error) {
+      if (prop !== "pass") {
+        if (error[prop] !== "") {
+          error.pass = false;
+          break;
+        }
+      }
+    }
+
     return error;
   }
   render() {
@@ -116,7 +148,9 @@ class AddStaff extends Component {
       this.state.name,
       this.state.doB,
       this.state.startDate,
-      this.state.salaryScale
+      this.state.salaryScale,
+      this.state.annualLeave,
+      this.state.overTime
     );
     return (
       <div className="col-md-4 col-sm-12 col-xs-12">
@@ -229,10 +263,13 @@ class AddStaff extends Component {
                     id="annualLeave"
                     name="annualLeave"
                     placeholder="1.0"
+                    valid={error.annualLeave === ""}
+                    invalid={error.annualLeave !== ""}
                     value={this.state.annualLeave}
                     onBlur={this.handleBlur("annualLeave")}
                     onChange={this.handleChange}
                   />
+                  <FormFeedback>{error.annualLeave}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -244,11 +281,14 @@ class AddStaff extends Component {
                     type="text"
                     id="overTime"
                     name="overTime"
+                    valid={error.overTime === ""}
+                    invalid={error.overTime !== ""}
                     value={this.state.overTime}
                     onBlur={this.handleBlur("overTime")}
                     onChange={this.handleChange}
                   />
                 </Col>
+                <FormFeedback>{error.overTime}</FormFeedback>
               </FormGroup>
               <FormGroup row>
                 <Button type="submit" color="primary">
