@@ -50,7 +50,6 @@ class AddStaffRedux extends Component {
     };
     this.props.onAddStaff(newStaff);
 
-    console.log(newStaff);
     this.toggleModal();
   }
 
