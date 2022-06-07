@@ -75,23 +75,25 @@ class AddStaff extends Component {
     const newStaff = {
       name: this.state.name,
       doB: new Date(this.state.doB).toISOString(),
-      salaryScale: this.state.salaryScale,
+      salaryScale: Number(this.state.salaryScale),
       startDate: new Date(this.state.startDate).toISOString(),
-      department: this.state.department,
-      annualLeave: this.state.annualLeave,
-      overTime: this.state.overTime,
+      department: { name: this.state.department.name },
+      annualLeave: Number(this.state.annualLeave),
+      overTime: Number(this.state.overTime),
       salary: "",
       image: "/assets/images/alberto.png",
     };
     this.props.onAddStaff(newStaff);
+    console.log(newStaff);
     this.toggleModal();
   }
 
-  validate(name, doB, startDate) {
+  validate(name, doB, startDate, salaryScale) {
     const error = {
       name: "",
       doB: "",
       startDate: "",
+      salaryScale: "",
     };
     //it hon 30 ky tu
     if (this.state.touched.name && this.state.name.length > 30) {
@@ -103,13 +105,20 @@ class AddStaff extends Component {
     if (this.state.touched.startDate && this.state.startDate === "") {
       error.startDate = "Yêu cầu nhập";
     }
+    if (salaryScale && Number(salaryScale) > 3.0) {
+      error.salaryScale = "Phải nhỏ hơn 3.0";
+    }
+    if (salaryScale && Number(salaryScale) < 1.0) {
+      error.salaryScale = "Phải lớn hơn 1.0";
+    }
     return error;
   }
   render() {
     const error = this.validate(
       this.state.name,
       this.state.doB,
-      this.state.startDate
+      this.state.startDate,
+      this.state.salaryScale
     );
     return (
       <div className="col-md-4 col-sm-12 col-xs-12">
@@ -202,10 +211,14 @@ class AddStaff extends Component {
                     type="text"
                     id="salaryScale"
                     name="salaryScale"
+                    placeholder="1.0 -> 3.0"
+                    valid={error.salaryScale === ""}
+                    invalid={error.salaryScale !== ""}
                     value={this.state.salaryScale}
                     onBlur={this.handleBlur("salaryScale")}
                     onChange={this.handleChange}
                   />
+                  <FormFeedback>{error.salaryScale}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -217,6 +230,7 @@ class AddStaff extends Component {
                     type="text"
                     id="annualLeave"
                     name="annualLeave"
+                    placeholder="1.0"
                     value={this.state.annualLeave}
                     onBlur={this.handleBlur("annualLeave")}
                     onChange={this.handleChange}
