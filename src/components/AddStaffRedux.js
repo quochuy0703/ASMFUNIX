@@ -169,7 +169,6 @@ class AddStaffRedux extends Component {
                     placeholder="1.0 -> 3.0"
                     defaultValue={1}
                     validators={{
-                      required,
                       isNumber,
                       greatThan: greatThan(1.0),
                       lessThan: lessThan(3.0),
@@ -180,7 +179,6 @@ class AddStaffRedux extends Component {
                     show="touched"
                     className="text-danger"
                     messages={{
-                      required: "Yêu cầu nhập",
                       isNumber: "Phải là một số",
                       lessThan: "Phải nhỏ hơn 3.0",
                       greatThan: "Phải lớn hơn 1.0",
@@ -200,14 +198,13 @@ class AddStaffRedux extends Component {
                     className="form-control"
                     placeholder="1.0"
                     defaultValue={0}
-                    validators={{ required, isNumber }}
+                    validators={{ isNumber }}
                   />
                   <Errors
                     model=".annualLeave"
                     show="touched"
                     className="text-danger"
                     messages={{
-                      required: "Yêu cầu nhập",
                       isNumber: "Phải là một số",
                     }}
                   />
@@ -224,14 +221,13 @@ class AddStaffRedux extends Component {
                     name="overTime"
                     className="form-control"
                     defaultValue={0}
-                    validators={{ required, isNumber }}
+                    validators={{ isNumber }}
                   />
                   <Errors
                     model=".overTime"
                     show="touched"
                     className="text-danger"
                     messages={{
-                      required: "Yêu cầu nhập",
                       isNumber: "Phải là một số",
                     }}
                   />
