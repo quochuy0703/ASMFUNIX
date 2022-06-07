@@ -51,7 +51,6 @@ class AddStaff extends Component {
   }
 
   handleBlur = (code) => (evt) => {
-    console.log(code);
     this.setState({
       touched: { ...this.state.touched, [code]: true },
     });
@@ -84,7 +83,6 @@ class AddStaff extends Component {
       image: "/assets/images/alberto.png",
     };
     this.props.onAddStaff(newStaff);
-    console.log(newStaff);
     this.toggleModal();
   }
 
