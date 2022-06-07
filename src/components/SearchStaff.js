@@ -20,7 +20,9 @@ class SearchStaff extends Component {
             innerRef={(input) => (this.searchInput = input)}
             placeholder="Nhập tên để tìm kiếm, để trống về danh sách ban đầu"
           />
-          <Button onClick={this.handleSearch}>Search</Button>
+          <Button onClick={this.handleSearch} color="primary">
+            Tìm
+          </Button>
         </InputGroup>
       </div>
     );
