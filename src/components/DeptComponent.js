@@ -1,5 +1,19 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
+import { Loading } from "./LoadingComponent";
+
+const RenderDept = function (props) {
+  return (
+    <Card key={props.dept.id}>
+      <CardBody>
+        <CardTitle>
+          <strong>{props.dept.name}</strong>
+        </CardTitle>
+        <CardText>Số lượng nhân viên: {props.dept.numberOfStaff}</CardText>
+      </CardBody>
+    </Card>
+  );
+};
 
 class DeptComponent extends Component {
   constructor(props) {
@@ -7,21 +21,20 @@ class DeptComponent extends Component {
   }
 
   render() {
-    const list = this.props.depts.map((dept) => {
-      return (
-        <div className="col-md-3 col-sm-2 col-xs-1 m-1">
-          <Card key={dept.id}>
-            <CardBody>
-              <CardTitle>
-                <strong>{dept.name}</strong>
-              </CardTitle>
-              <CardText>Số lượng nhân viên: {dept.numberOfStaff}</CardText>
-            </CardBody>
-          </Card>
-        </div>
-      );
-    });
-    return <div className="row">{list}</div>;
+    if (this.props.loadingDepts) {
+      return <Loading />;
+    } else if (this.props.failedDepts) {
+      return <h4>this.props.failedDepts</h4>;
+    } else {
+      const list = this.props.depts.map((dept) => {
+        return (
+          <div className="col-md-3 col-sm-2 col-xs-1 m-1" key={dept.id}>
+            <RenderDept dept={dept} />
+          </div>
+        );
+      });
+      return <div className="row">{list}</div>;
+    }
   }
 }
 

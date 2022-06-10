@@ -10,10 +10,16 @@ import DeptComponent from "./DeptComponent";
 import { connect } from "react-redux";
 
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { addStaffs, fetchStaffs, fetchDepts } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
   return { staffs: state.staffs, depts: state.depts, nextID: state.nextID };
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchStaffs: () => dispatch(fetchStaffs()),
+  fetchDepts: () => dispatch(fetchDepts()),
+});
 
 class Main extends Component {
   constructor(props) {
@@ -61,29 +67,32 @@ class Main extends Component {
 
   componentDidMount() {
     console.log("did mount");
+
+    this.props.fetchStaffs();
     //lấy dữ liệu staff từ localStorage
-    let dataStaff = localStorage.getItem("staffs");
-    if (dataStaff) {
-      this.setState({
-        staffs: JSON.parse(dataStaff),
-      });
-    }
+    // let dataStaff = localStorage.getItem("staffs");
+    // if (dataStaff) {
+    //   this.setState({
+    //     staffs: JSON.parse(dataStaff),
+    //   });
+    // }
 
-    //lấy dữ liệu depts từ localStorage
-    let dataDept = localStorage.getItem("depts");
-    if (dataDept) {
-      this.setState({
-        depts: JSON.parse(dataDept),
-      });
-    }
+    this.props.fetchDepts();
+    // //lấy dữ liệu depts từ localStorage
+    // let dataDept = localStorage.getItem("depts");
+    // if (dataDept) {
+    //   this.setState({
+    //     depts: JSON.parse(dataDept),
+    //   });
+    // }
 
-    //tính toán id tiếp theo cho staff
-    const listID = this.state.staffs.map((item) => item.id);
-    const max = Math.max(...listID);
-    console.log(max);
-    this.setState({
-      nextID: max,
-    });
+    // //tính toán id tiếp theo cho staff
+    // const listID = this.state.staffs.map((item) => item.id);
+    // const max = Math.max(...listID);
+    // console.log(max);
+    // this.setState({
+    //   nextID: max,
+    // });
   }
 
   render() {
@@ -91,7 +100,7 @@ class Main extends Component {
       return (
         <StaffDetail
           staff={
-            this.state.staffs.filter(
+            this.props.staffs.staffs.filter(
               (item) => item.id === parseInt(match.params.id, 10)
             )[0]
           }
@@ -108,7 +117,9 @@ class Main extends Component {
             component={() => (
               <StaffList
                 onAddStaff={this.handleAddStaff}
-                staffs={this.state.staffs}
+                staffs={this.props.staffs.staffs}
+                loadingStaffs={this.props.staffs.isLoading}
+                failedStaffs={this.props.staffs.errMess}
               />
             )}
           />
@@ -116,7 +127,13 @@ class Main extends Component {
           <Route
             exact
             path="/dept"
-            component={() => <DeptComponent depts={this.state.depts} />}
+            component={() => (
+              <DeptComponent
+                depts={this.props.depts.depts}
+                loadingDepts={this.props.depts.isLoading}
+                failedDepts={this.props.depts.errMess}
+              />
+            )}
           />
           <Route
             exact
@@ -131,4 +148,4 @@ class Main extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

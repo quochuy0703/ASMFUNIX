@@ -8,6 +8,8 @@ import CardStaff from "./CardStaff";
 import AddStaff from "./AddStaff";
 import AddStaffRedux from "./AddStaffRedux";
 
+import { Loading } from "./LoadingComponent";
+
 class StaffList extends Component {
   constructor(props) {
     super(props);
@@ -75,63 +77,72 @@ class StaffList extends Component {
     this.props.onAddStaff(staff);
   }
   render() {
-    //xử lý tìm kiếm theo tên
-    let listTemp;
-    if (this.state.searchWord) {
-      listTemp = this.props.staffs.filter((item) =>
-        item.name.toLowerCase().includes(this.state.searchWord.toLowerCase())
-      );
+    if (this.props.loadingStaffs) {
+      return <Loading />;
+    } else if (this.props.failedStaffs) {
+      return <h4>this.props.failedStaffs</h4>;
     } else {
-      listTemp = [...this.props.staffs];
-    }
-
-    //sắp xếp theo ID, name, ngày sinh hoặc ngày vào làm
-    if (this.state.orderBy) {
-      let sortFunc;
-      if (this.state.orderBy === "id") {
-        sortFunc = this.sortByID;
-      } else if (this.state.orderBy === "name") {
-        sortFunc = this.sortByName;
-      } else if (this.state.orderBy === "doB") {
-        sortFunc = this.sortByStartDate;
+      //xử lý tìm kiếm theo tên
+      let listTemp;
+      if (this.state.searchWord) {
+        listTemp = this.props.staffs.filter((item) =>
+          item.name.toLowerCase().includes(this.state.searchWord.toLowerCase())
+        );
       } else {
-        sortFunc = this.sortByDoB;
+        listTemp = [...this.props.staffs];
       }
-      listTemp.sort(sortFunc);
-    }
 
-    //xử lý sắp xếp tăng dần hoặc giảm dần
-    if (this.state.sortDir === "asc") {
-    } else {
-      listTemp.reverse();
-    }
+      //sắp xếp theo ID, name, ngày sinh hoặc ngày vào làm
+      if (this.state.orderBy) {
+        let sortFunc;
+        if (this.state.orderBy === "id") {
+          sortFunc = this.sortByID;
+        } else if (this.state.orderBy === "name") {
+          sortFunc = this.sortByName;
+        } else if (this.state.orderBy === "doB") {
+          sortFunc = this.sortByStartDate;
+        } else {
+          sortFunc = this.sortByDoB;
+        }
+        listTemp.sort(sortFunc);
+      }
 
-    //list chứa danh sách nhân viên
-    const list = listTemp.map((staff) => {
+      //xử lý sắp xếp tăng dần hoặc giảm dần
+      if (this.state.sortDir === "asc") {
+      } else {
+        listTemp.reverse();
+      }
+
+      //list chứa danh sách nhân viên
+      const list = listTemp.map((staff) => {
+        return (
+          <Link style={{ textDecoration: "none" }} to={`staff/${staff.id}`}>
+            <CardStaff key={staff.id} staff={staff} />
+          </Link>
+        );
+      });
       return (
-        <Link style={{ textDecoration: "none" }} to={`staff/${staff.id}`}>
-          <CardStaff key={staff.id} staff={staff} />
-        </Link>
-      );
-    });
+        <div className="container">
+          <h1>Nhân Viên</h1>
 
-    return (
-      <div className="container">
-        <h1>Nhân Viên</h1>
-        <div className="row">
-          <SearchStaff onSearch={this.handleSearch} />
-          <SortStaff onClick={this.handleClick} onHandleDir={this.handleDir} />
-          {/* <AddStaff onAddStaff={this.handleAddStaff} /> */}
-          <AddStaffRedux onAddStaff={this.handleAddStaff} />
+          <div className="row">
+            <SearchStaff onSearch={this.handleSearch} />
+            <SortStaff
+              onClick={this.handleClick}
+              onHandleDir={this.handleDir}
+            />
+            {/* <AddStaff onAddStaff={this.handleAddStaff} /> */}
+            <AddStaffRedux onAddStaff={this.handleAddStaff} />
+          </div>
+
+          <hr />
+          {/* render list nhân viên */}
+          <Row md="6" sm="2" xs="1">
+            {list}
+          </Row>
         </div>
-
-        <hr />
-        {/* render list nhân viên */}
-        <Row md="6" sm="2" xs="1">
-          {list}
-        </Row>
-      </div>
-    );
+      );
+    }
   }
 }
 

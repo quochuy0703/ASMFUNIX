@@ -42,7 +42,7 @@ class StaffDetail extends Component {
                 Ngày vào công ty:{" "}
                 {dateFormat(this.props.staff.startDate, "dd/mm/yyyy")}
               </p>
-              <p>Phòng ban: {this.props.staff.department.name}</p>
+              <p>Phòng ban: {this.props.staff.departmentId}</p>
               <p>Số ngày nghỉ còn lại: {this.props.staff.annualLeave}</p>
               <p>Số ngày làm thêm: {this.props.staff.overTime}</p>
             </div>

@@ -45,7 +45,7 @@ export default class CardStaff extends Component {
               <p>
                 <strong>Phòng Ban</strong>
               </p>
-              <p>{this.props.staff.department.name}</p>
+              <p>{this.props.staff.departmentId}</p>
             </div>
             <div className="footer_start_joinDate">
               <p>
