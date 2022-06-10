@@ -47,9 +47,9 @@ class SalaryDetail extends Component {
   };
   //xử lý sort theo mức lương
   sortBySalary = function (a, b) {
-    let aS = Number(a.salaryScale) * 3000000 + Number(a.overTime) * 200000;
-    let bS = Number(b.salaryScale) * 3000000 + Number(b.overTime) * 200000;
-    return aS - bS;
+    // let aS = Number(a.salaryScale) * 3000000 + Number(a.overTime) * 200000;
+    // let bS = Number(b.salaryScale) * 3000000 + Number(b.overTime) * 200000;
+    return a.salary - b.salary;
   };
 
   render() {

@@ -1,3 +1,4 @@
+import { actionTypes } from "react-redux-form";
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "./baseUrl";
 
@@ -70,4 +71,37 @@ export const loadingDepts = () => ({
 export const failedDepts = (errMess) => ({
   type: ActionTypes.DEPT_FAILED,
   payload: errMess,
+});
+
+export const fetchSalary = () => (dispatch) => {
+  dispatch(loadingSalary());
+  return fetch(baseUrl + "staffsSalary")
+    .then(
+      (res) => {
+        if (res.ok) {
+          return res;
+        } else {
+          let err = new Error("Error " + res.status + ": " + res.statusText);
+          err.response = res;
+          throw err;
+        }
+      },
+      (error) => {
+        let err = new Error(error.message);
+        throw err;
+      }
+    )
+    .then((res) => res.json())
+    .then((res) => dispatch(addSalary(res)))
+    .catch((err) => dispatch(failedSalary(err.message)));
+};
+
+export const addSalary = (salary) => ({
+  type: ActionTypes.ADD_SALARY,
+  payload: salary,
+});
+export const loadingSalary = () => ({ type: ActionTypes.SALARY_LOADING });
+export const failedSalary = (errMess) => ({
+  type: ActionTypes.SALARY_FAILED,
+  paload: errMess,
 });

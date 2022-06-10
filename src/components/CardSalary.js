@@ -58,10 +58,11 @@ export default class CardSalary extends Component {
               <strong>Lương</strong>
             </p>
             <p>
-              {Math.trunc(
+              {this.props.staff.salary}
+              {/* {Math.trunc(
                 Number(this.props.staff.salaryScale) * 3000000 +
                   Number(this.props.staff.overTime) * 200000
-              )}
+              )} */}
             </p>
           </div>
         </div>

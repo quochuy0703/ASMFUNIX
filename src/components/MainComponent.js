@@ -10,15 +10,26 @@ import DeptComponent from "./DeptComponent";
 import { connect } from "react-redux";
 
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
-import { addStaffs, fetchStaffs, fetchDepts } from "../redux/ActionCreators";
+import {
+  addStaffs,
+  fetchStaffs,
+  fetchDepts,
+  fetchSalary,
+} from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
-  return { staffs: state.staffs, depts: state.depts, nextID: state.nextID };
+  return {
+    staffs: state.staffs,
+    depts: state.depts,
+    nextID: state.nextID,
+    salary: state.salary,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   fetchStaffs: () => dispatch(fetchStaffs()),
   fetchDepts: () => dispatch(fetchDepts()),
+  fetchSalary: () => dispatch(fetchSalary()),
 });
 
 class Main extends Component {
@@ -93,6 +104,8 @@ class Main extends Component {
     // this.setState({
     //   nextID: max,
     // });
+
+    this.props.fetchSalary();
   }
 
   render() {
@@ -138,7 +151,7 @@ class Main extends Component {
           <Route
             exact
             path="/salary"
-            component={() => <SalaryDetail staffs={this.state.staffs} />}
+            component={() => <SalaryDetail staffs={this.props.salary.salary} />}
           />
           <Redirect to="/staff" />
         </Switch>
