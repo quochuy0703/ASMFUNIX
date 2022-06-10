@@ -17,6 +17,7 @@ import {
   fetchDepts,
   fetchSalary,
   fetchStaffOfDept,
+  postStaff,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
@@ -34,6 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchDepts: () => dispatch(fetchDepts()),
   fetchSalary: () => dispatch(fetchSalary()),
   fetchStaffOfDept: (deptID) => dispatch(fetchStaffOfDept(deptID)),
+  postStaff: (newStaff) => dispatch(postStaff(newStaff)),
 });
 
 class Main extends Component {
@@ -48,38 +50,41 @@ class Main extends Component {
     this.handleAddStaff = this.handleAddStaff.bind(this);
   }
 
-  handleAddStaff(staff) {
-    const newID = this.state.nextID + 1;
-    staff = { ...staff, id: newID };
-    let arrayStaff = JSON.parse(JSON.stringify(this.state.staffs));
-    arrayStaff.push(staff);
+  // handleAddStaff(staff) {
+  //   const newID = this.state.nextID + 1;
+  //   staff = { ...staff, id: newID };
+  //   let arrayStaff = JSON.parse(JSON.stringify(this.state.staffs));
+  //   arrayStaff.push(staff);
 
-    let arrayDepts = JSON.parse(JSON.stringify(this.state.depts));
+  //   let arrayDepts = JSON.parse(JSON.stringify(this.state.depts));
 
-    console.log(this.state.depts);
+  //   console.log(this.state.depts);
 
-    arrayDepts = arrayDepts.map((item) => {
-      if (item.name === staff.department.name) {
-        item.numberOfStaff++;
-      }
-      return item;
-    });
+  //   arrayDepts = arrayDepts.map((item) => {
+  //     if (item.name === staff.department.name) {
+  //       item.numberOfStaff++;
+  //     }
+  //     return item;
+  //   });
 
-    console.log(arrayDepts);
+  //   console.log(arrayDepts);
 
-    this.setState(
-      (prevState) => ({
-        staffs: arrayStaff,
-        nextID: newID,
-        depts: arrayDepts,
-      }),
-      () => {
-        localStorage.setItem("staffs", JSON.stringify(this.state.staffs));
-        localStorage.setItem("depts", JSON.stringify(this.state.depts));
-      }
-    );
+  //   this.setState(
+  //     (prevState) => ({
+  //       staffs: arrayStaff,
+  //       nextID: newID,
+  //       depts: arrayDepts,
+  //     }),
+  //     () => {
+  //       localStorage.setItem("staffs", JSON.stringify(this.state.staffs));
+  //       localStorage.setItem("depts", JSON.stringify(this.state.depts));
+  //     }
+  //   );
+  // }
+
+  handleAddStaff(newStaff) {
+    this.props.postStaff(newStaff);
   }
-
   componentDidMount() {
     console.log("did mount");
 

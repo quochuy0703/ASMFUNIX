@@ -38,6 +38,23 @@ export const failedStaffs = (errMess) => ({
   payload: errMess,
 });
 
+export const postStaff = (newStaff) => (dispatch) => {
+  newStaff.date = new Date().toISOString();
+  return fetch(baseUrl + "staffs", {
+    method: "POST",
+    body: JSON.stringify(newStaff),
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+  })
+    .then((res) => res.json())
+    .then((res) => dispatch(addStaff(res)));
+};
+
+export const addStaff = (newStaff) => ({
+  type: ActionTypes.ADD_STAFF,
+  payload: newStaff,
+});
+
 export const fetchDepts = () => (dispatch) => {
   dispatch(loadingDepts());
   return fetch(baseUrl + "departments")
@@ -110,8 +127,24 @@ export const fetchStaffOfDept = (id) => (dispatch) => {
   dispatch(loadingStaffsOfDept());
   console.log("fetchStaffOfDept: " + id);
   return fetch(baseUrl + "departments/" + id)
+    .then(
+      (res) => {
+        if (res.ok) {
+          return res;
+        } else {
+          let err = new Error("Error " + res.status + ": " + res.statusText);
+          err.response = res;
+          throw err;
+        }
+      },
+      (error) => {
+        let err = new Error(error.message);
+        throw err;
+      }
+    )
     .then((res) => res.json())
-    .then((res) => dispatch(addStaffsOfDept(res)));
+    .then((res) => dispatch(addStaffsOfDept(res)))
+    .catch((err) => dispatch(failedStaffsOfDept(err.message)));
 };
 
 export const addStaffsOfDept = (staffs) => ({
