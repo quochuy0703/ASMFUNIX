@@ -120,7 +120,11 @@ class StaffListOfDept extends Component {
       //list chứa danh sách nhân viên
       const list = listTemp.map((staff) => {
         return (
-          <Link style={{ textDecoration: "none" }} to={`staff/${staff.id}`}>
+          <Link
+            key={staff.id}
+            style={{ textDecoration: "none" }}
+            to={`/staff/${staff.id}`}
+          >
             <CardStaff key={staff.id} staff={staff} />
           </Link>
         );

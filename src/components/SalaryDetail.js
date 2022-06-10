@@ -74,7 +74,7 @@ class SalaryDetail extends Component {
     //list chứa danh sách nhân viên
     const list = listTemp.map((staff) => {
       return (
-        <div className="my-1 col-md-4 col-sm-6 col-xs-12">
+        <div className="my-1 col-md-4 col-sm-6 col-xs-12" key={staff.id}>
           <CardSalary staff={staff} />
         </div>
       );
