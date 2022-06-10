@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import SearchStaff from "./SearchStaff";
 import SortStaff from "./SortStaff";
 import CardStaff from "./CardStaff";
-import AddStaff from "./AddStaff";
-import AddStaffRedux from "./AddStaffRedux";
 
 import { Loading } from "./LoadingComponent";
 
@@ -22,7 +20,6 @@ class StaffListOfDept extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleDir = this.handleDir.bind(this);
-    this.handleAddStaff = this.handleAddStaff.bind(this);
   }
   //xử lý khi người dùng nhấn nút search
   handleSearch(value) {
@@ -71,11 +68,6 @@ class StaffListOfDept extends Component {
   sortByName = function (a, b) {
     return a.name.localeCompare(b.name);
   };
-
-  //
-  handleAddStaff(staff) {
-    this.props.onAddStaff(staff);
-  }
 
   componentDidMount() {
     this.props.fetchData(this.props.deptID);
@@ -139,8 +131,6 @@ class StaffListOfDept extends Component {
               onClick={this.handleClick}
               onHandleDir={this.handleDir}
             />
-            {/* <AddStaff onAddStaff={this.handleAddStaff} /> */}
-            <AddStaffRedux onAddStaff={this.handleAddStaff} />
           </div>
 
           <hr />

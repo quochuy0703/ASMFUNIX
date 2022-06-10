@@ -148,7 +148,6 @@ class Main extends Component {
               <StaffListOfDept
                 fetchData={this.props.fetchStaffOfDept}
                 deptID={route.match.params.id}
-                onAddStaff={this.handleAddStaff}
                 staffs={this.props.staffsOfDept.staffs}
                 loadingStaffs={this.props.staffsOfDept.isLoading}
                 failedStaffs={this.props.staffsOfDept.errMess}
