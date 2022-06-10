@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import StaffList from "./StaffListComponent";
+import StaffListOfDept from "./StaffsListOfDeptComponent";
 import StaffDetail from "./StaffDetail";
 import SalaryDetail from "./SalaryDetail";
 
@@ -15,6 +16,7 @@ import {
   fetchStaffs,
   fetchDepts,
   fetchSalary,
+  fetchStaffOfDept,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
@@ -23,6 +25,7 @@ const mapStateToProps = (state) => {
     depts: state.depts,
     nextID: state.nextID,
     salary: state.salary,
+    staffsOfDept: state.staffsOfDept,
   };
 };
 
@@ -30,6 +33,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchStaffs: () => dispatch(fetchStaffs()),
   fetchDepts: () => dispatch(fetchDepts()),
   fetchSalary: () => dispatch(fetchSalary()),
+  fetchStaffOfDept: (deptID) => dispatch(fetchStaffOfDept(deptID)),
 });
 
 class Main extends Component {
@@ -137,6 +141,21 @@ class Main extends Component {
             )}
           />
           <Route exact path="/staff/:id" component={staffWithID} />
+          <Route
+            exact
+            path="/dept/:id"
+            render={(route) => (
+              <StaffListOfDept
+                fetchData={this.props.fetchStaffOfDept}
+                deptID={route.match.params.id}
+                onAddStaff={this.handleAddStaff}
+                staffs={this.props.staffsOfDept.staffs}
+                loadingStaffs={this.props.staffsOfDept.isLoading}
+                failedStaffs={this.props.staffsOfDept.errMess}
+              />
+            )}
+          />
+
           <Route
             exact
             path="/dept"

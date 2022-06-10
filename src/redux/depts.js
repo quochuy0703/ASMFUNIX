@@ -15,7 +15,7 @@ export const Depts = (
     case ActionTypes.DEPT_LOADING:
       return { ...state, isLoading: true };
     case ActionTypes.DEPT_FAILED:
-      return { ...state, errMess: action.payload };
+      return { ...state, errMess: action.payload, isLoading: false };
     default:
       return state;
   }

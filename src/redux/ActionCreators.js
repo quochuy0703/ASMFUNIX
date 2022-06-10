@@ -105,3 +105,23 @@ export const failedSalary = (errMess) => ({
   type: ActionTypes.SALARY_FAILED,
   paload: errMess,
 });
+
+export const fetchStaffOfDept = (id) => (dispatch) => {
+  dispatch(loadingStaffsOfDept());
+  console.log("fetchStaffOfDept: " + id);
+  return fetch(baseUrl + "departments/" + id)
+    .then((res) => res.json())
+    .then((res) => dispatch(addStaffsOfDept(res)));
+};
+
+export const addStaffsOfDept = (staffs) => ({
+  type: ActionTypes.ADD_STAFFS_DEPT,
+  payload: staffs,
+});
+export const loadingStaffsOfDept = () => ({
+  type: ActionTypes.STAFFS_DEPT_LOADING,
+});
+export const failedStaffsOfDept = (errMess) => ({
+  type: ActionTypes.STAFFS_DEPTS_FAILED,
+  payload: errMess,
+});

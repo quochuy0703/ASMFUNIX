@@ -6,11 +6,11 @@ export const Salary = (
 ) => {
   switch (action.type) {
     case ActionTypes.ADD_SALARY:
-      return { ...state, salary: action.payload };
+      return { ...state, salary: action.payload, isLoading: false };
     case ActionTypes.SALARY_LOADING:
       return { ...state, isLoading: true };
     case ActionTypes.SALARY_FAILED:
-      return { ...state, errMess: action.payload };
+      return { ...state, errMess: action.payload, isLoading: false };
     default:
       return state;
   }

@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import { Loading } from "./LoadingComponent";
+import { Link } from "react-router-dom";
 
 const RenderDept = function (props) {
   return (
-    <Card key={props.dept.id}>
-      <CardBody>
-        <CardTitle>
-          <strong>{props.dept.name}</strong>
-        </CardTitle>
-        <CardText>Số lượng nhân viên: {props.dept.numberOfStaff}</CardText>
-      </CardBody>
-    </Card>
+    <Link style={{ texDecoration: "none" }} to={`dept/${props.dept.id}`}>
+      <Card key={props.dept.id}>
+        <CardBody>
+          <CardTitle>
+            <strong>{props.dept.name}</strong>
+          </CardTitle>
+          <CardText>Số lượng nhân viên: {props.dept.numberOfStaff}</CardText>
+        </CardBody>
+      </Card>
+    </Link>
   );
 };
 
