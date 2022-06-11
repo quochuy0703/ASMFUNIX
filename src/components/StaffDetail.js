@@ -3,6 +3,7 @@ import { Card, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import DeleteStaff from "./DeleteStaff";
+import UpdateStaff from "./UpdateStaff";
 
 class StaffDetail extends Component {
   constructor(props) {
@@ -12,6 +13,10 @@ class StaffDetail extends Component {
   handleDeleteStaff(id) {
     console.log("handle delete staff");
     this.props.onDeleteStaff(id);
+  }
+
+  handleUpdateStaff(infoStaff) {
+    this.props.onUpdateStaff(infoStaff);
   }
 
   render() {
@@ -27,6 +32,11 @@ class StaffDetail extends Component {
           <DeleteStaff
             onDeleteStaff={(id) => this.handleDeleteStaff(id)}
             idStaff={this.props.staff.id}
+          />
+          <UpdateStaff
+            depts={this.props.depts}
+            staff={this.props.staff}
+            onUpdateStaff={(infoStaff) => this.handleUpdateStaff(infoStaff)}
           />
         </div>
         <Card>

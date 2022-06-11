@@ -94,6 +94,38 @@ export const postDeleteStaff = (id) => (dispatch) => {
     .catch((err) => dispatch(failedStaffs(err.message)));
 };
 
+export const patchUpdateStaff = (infoStaff) => (dispatch) => {
+  return fetch(baseUrl + "staffs", {
+    method: "PATCH",
+    body: JSON.stringify(infoStaff),
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+  })
+    .then(
+      (res) => {
+        if (res.ok) {
+          return res;
+        } else {
+          let err = new Error("Error " + res.status + ": " + res.statusText);
+          err.response = res;
+          throw err;
+        }
+      },
+      (error) => {
+        let err = new Error(error.message);
+        throw err;
+      }
+    )
+    .then((res) => res.json())
+    .then((res) => dispatch(updateStaff(infoStaff)))
+    .catch((err) => dispatch(failedStaffs(err.message)));
+};
+
+export const updateStaff = (infoStaff) => ({
+  type: ActionTypes.UPDATE_STAFF,
+  payload: infoStaff,
+});
+
 export const addStaff = (newStaff) => ({
   type: ActionTypes.ADD_STAFF,
   payload: newStaff,

@@ -30,6 +30,24 @@ export const Staffs = (
         staffs: [...newStaff],
       };
     }
+    case ActionTypes.UPDATE_STAFF: {
+      let newStaffs = [...state.staffs];
+      let index = newStaffs.findIndex((item) => item.id === action.payload.id);
+
+      for (const prop in action.payload) {
+        newStaffs[index] = {
+          ...newStaffs[index],
+          [prop]: action.payload[prop],
+        };
+      }
+
+      return {
+        ...state,
+        isLoading: false,
+        errMess: null,
+        staffs: [...newStaffs],
+      };
+    }
 
     case ActionTypes.STAFFS_LOADING:
       return {

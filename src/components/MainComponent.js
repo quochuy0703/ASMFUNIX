@@ -19,6 +19,7 @@ import {
   fetchStaffOfDept,
   postStaff,
   postDeleteStaff,
+  patchUpdateStaff,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
@@ -38,6 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchStaffOfDept: (deptID) => dispatch(fetchStaffOfDept(deptID)),
   postStaff: (newStaff) => dispatch(postStaff(newStaff)),
   postDeleteStaff: (id) => dispatch(postDeleteStaff(id)),
+  patchUpdateStaff: (infoStaff) => dispatch(patchUpdateStaff(infoStaff)),
 });
 
 class Main extends Component {
@@ -62,6 +64,9 @@ class Main extends Component {
   onDeleteStaff(id) {
     this.props.postDeleteStaff(id);
   }
+  onUpdateStaff(infoStaff) {
+    this.props.patchUpdateStaff(infoStaff);
+  }
 
   render() {
     const staffWithID = ({ match }) => {
@@ -73,6 +78,7 @@ class Main extends Component {
             )[0]
           }
           onDeleteStaff={(id) => this.onDeleteStaff(id)}
+          onUpdateStaff={(infoStaff) => this.onUpdateStaff(infoStaff)}
           depts={this.props.depts.depts}
         />
       );
