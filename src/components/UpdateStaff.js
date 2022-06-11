@@ -15,7 +15,7 @@ import {
 
 import { LocalForm, Control, Errors } from "react-redux-form";
 
-class AddStaffRedux extends Component {
+class UpdateStaff extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ class AddStaffRedux extends Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
 
-    this.handleClickAdd = this.handleClickAdd.bind(this);
+    this.handleClickUpdate = this.handleClickUpdate.bind(this);
   }
   toggleModal() {
     this.setState({
@@ -35,7 +35,7 @@ class AddStaffRedux extends Component {
     this.toggleModal();
   }
 
-  handleClickAdd(values, e) {
+  handleClickUpdate(values, e) {
     e.preventDefault();
     const newStaff = {
       name: values.name,
@@ -50,8 +50,31 @@ class AddStaffRedux extends Component {
       ),
       image: "/assets/images/alberto.png",
     };
-    this.props.onAddStaff(newStaff);
-    // alert(JSON.stringify(newStaff));
+    let tempStaff = {};
+    for (const prop in newStaff) {
+      if (this.props.staff[prop] !== newStaff[prop]) {
+        if (prop === "doB") {
+          if (
+            this.props.staff[prop].substr(0, 10) !==
+            newStaff[prop].substr(0, 10)
+          ) {
+            tempStaff[prop] = newStaff[prop];
+          }
+        } else if (prop === "startDate") {
+          if (
+            this.props.staff[prop].substr(0, 10) !==
+            newStaff[prop].substr(0, 10)
+          ) {
+            tempStaff[prop] = newStaff[prop];
+          }
+        } else {
+          tempStaff[prop] = newStaff[prop];
+        }
+      }
+    }
+    tempStaff.id = this.props.staff.id;
+    this.props.onUpdateStaff(tempStaff);
+    // alert(JSON.stringify(tempStaff));
 
     this.toggleModal();
   }
@@ -74,12 +97,16 @@ class AddStaffRedux extends Component {
     return (
       <div className="col-md-4 col-sm-12 col-xs-12">
         <Button color="primary" onClick={this.handleAdd}>
-          Thêm
+          Cap nhat
         </Button>
         <Modal isOpen={this.state.isOpen} toggle={this.toggleModal}>
-          <ModalHeader toggle={this.toggleModal}>Thêm nhân viên</ModalHeader>
+          <ModalHeader toggle={this.toggleModal}>
+            Cập nhật thông tin nhân viên
+          </ModalHeader>
           <ModalBody>
-            <LocalForm onSubmit={(values, e) => this.handleClickAdd(values, e)}>
+            <LocalForm
+              onSubmit={(values, e) => this.handleClickUpdate(values, e)}
+            >
               <Row className="form-group">
                 <Col md={4}>
                   <Label htmlFor="name">Tên</Label>
@@ -90,6 +117,7 @@ class AddStaffRedux extends Component {
                     id="name"
                     name="name"
                     className="form-control"
+                    defaultValue={this.props.staff.name}
                     validators={{ required, maxLength: maxLength(30) }}
                   />
                   <Errors
@@ -114,6 +142,7 @@ class AddStaffRedux extends Component {
                     id="doB"
                     name="doB"
                     className="form-control"
+                    defaultValue={this.props.staff.doB.substr(0, 10)}
                     validators={{ required }}
                   />
                   <Errors
@@ -134,6 +163,7 @@ class AddStaffRedux extends Component {
                     type="date"
                     id="startDate"
                     name="startDate"
+                    defaultValue={this.props.staff.startDate.substr(0, 10)}
                     className="form-control"
                     validators={{ required }}
                   />
@@ -154,9 +184,7 @@ class AddStaffRedux extends Component {
                     model=".department"
                     id="department"
                     name="department"
-                    defaultValue={
-                      this.props.depts ? this.props.depts[0].id : ""
-                    }
+                    defaultValue={this.props.staff.departmentId}
                     className="form-control"
                   >
                     {/* <option>IT</option>
@@ -179,7 +207,7 @@ class AddStaffRedux extends Component {
                     name="salaryScale"
                     className="form-control"
                     placeholder="1.0 -> 3.0"
-                    defaultValue={1}
+                    defaultValue={this.props.staff.salaryScale}
                     validators={{
                       isNumber,
                       greatThan: greatThan(1.0),
@@ -209,7 +237,7 @@ class AddStaffRedux extends Component {
                     name="annualLeave"
                     className="form-control"
                     placeholder="1.0"
-                    defaultValue={0}
+                    defaultValue={this.props.staff.annualLeave}
                     validators={{ isNumber }}
                   />
                   <Errors
@@ -232,7 +260,7 @@ class AddStaffRedux extends Component {
                     id="overTime"
                     name="overTime"
                     className="form-control"
-                    defaultValue={0}
+                    defaultValue={this.props.staff.overTime}
                     validators={{ isNumber }}
                   />
                   <Errors
@@ -247,7 +275,7 @@ class AddStaffRedux extends Component {
               </Row>
               <Row className="form-group">
                 <Button type="submit" color="primary">
-                  Thêm
+                  Cập nhật
                 </Button>
               </Row>
             </LocalForm>
@@ -258,4 +286,4 @@ class AddStaffRedux extends Component {
   }
 }
 
-export default AddStaffRedux;
+export default UpdateStaff;

@@ -45,7 +45,15 @@ export default class CardStaff extends Component {
               <p>
                 <strong>Phòng Ban</strong>
               </p>
-              <p>{this.props.staff.departmentId}</p>
+              <p>
+                {this.props.depts.some(
+                  (item) => item.id === this.props.staff.departmentId
+                )
+                  ? this.props.depts.filter(
+                      (item) => item.id === this.props.staff.departmentId
+                    )[0].name
+                  : ""}
+              </p>
             </div>
             <div className="footer_start_joinDate">
               <p>

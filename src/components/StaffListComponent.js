@@ -117,7 +117,7 @@ class StaffList extends Component {
       const list = listTemp.map((staff) => {
         return (
           <Link style={{ textDecoration: "none" }} to={`staff/${staff.id}`}>
-            <CardStaff key={staff.id} staff={staff} />
+            <CardStaff key={staff.id} staff={staff} depts={this.props.depts} />
           </Link>
         );
       });
@@ -132,7 +132,10 @@ class StaffList extends Component {
               onHandleDir={this.handleDir}
             />
             {/* <AddStaff onAddStaff={this.handleAddStaff} /> */}
-            <AddStaffRedux onAddStaff={this.handleAddStaff} />
+            <AddStaffRedux
+              onAddStaff={this.handleAddStaff}
+              depts={this.props.depts}
+            />
           </div>
 
           <hr />
