@@ -74,8 +74,24 @@ export const postDeleteStaff = (id) => (dispatch) => {
     headers: { "Content-Type": "application/json" },
     credentials: "same-origin",
   })
+    .then(
+      (res) => {
+        if (res.ok) {
+          return res;
+        } else {
+          let err = new Error("Error " + res.status + ": " + res.statusText);
+          err.response = res;
+          throw err;
+        }
+      },
+      (error) => {
+        let err = new Error(error.message);
+        throw err;
+      }
+    )
     .then((res) => res.json())
-    .then((res) => dispatch(deleteStaff(id)));
+    .then((res) => dispatch(deleteStaff(id)))
+    .catch((err) => dispatch(failedStaffs(err.message)));
 };
 
 export const addStaff = (newStaff) => ({
