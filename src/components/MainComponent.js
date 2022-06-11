@@ -18,6 +18,7 @@ import {
   fetchSalary,
   fetchStaffOfDept,
   postStaff,
+  postDeleteStaff,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
@@ -36,6 +37,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSalary: () => dispatch(fetchSalary()),
   fetchStaffOfDept: (deptID) => dispatch(fetchStaffOfDept(deptID)),
   postStaff: (newStaff) => dispatch(postStaff(newStaff)),
+  postDeleteStaff: (id) => dispatch(postDeleteStaff(id)),
 });
 
 class Main extends Component {
@@ -57,6 +59,10 @@ class Main extends Component {
     this.props.fetchSalary();
   }
 
+  onDeleteStaff(id) {
+    this.props.postDeleteStaff(id);
+  }
+
   render() {
     const staffWithID = ({ match }) => {
       return (
@@ -66,6 +72,7 @@ class Main extends Component {
               (item) => item.id === parseInt(match.params.id, 10)
             )[0]
           }
+          onDeleteStaff={(id) => this.onDeleteStaff(id)}
           depts={this.props.depts.depts}
         />
       );

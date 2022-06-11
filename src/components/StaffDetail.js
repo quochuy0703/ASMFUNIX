@@ -2,28 +2,32 @@ import React, { Component } from "react";
 import { Card, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
+import DeleteStaff from "./DeleteStaff";
 
 class StaffDetail extends Component {
   constructor(props) {
     super(props);
   }
 
+  handleDeleteStaff(id) {
+    console.log("handle delete staff");
+    this.props.onDeleteStaff(id);
+  }
+
   render() {
     return (
       <div className="container">
         <div className="row">
-          {/* <Breadcrumb>
-            <BreadcrumbItem>
-              <Link to="/staff">Nhân Viên</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem active>{this.props.staff.name}</BreadcrumbItem>
-          </Breadcrumb> */}
-          <nav class="breadcrumbs">
-            <span class="breadcrumbs__item">
+          <div className="breadcrumbs col-md-4 col-sm-12 col-xs-12">
+            <span className="breadcrumbs__item">
               <Link to="/staff">Nhân Viên</Link>
             </span>
-            <span class="breadcrumbs__item">{this.props.staff.name}</span>
-          </nav>
+            <span className="breadcrumbs__item">{this.props.staff.name}</span>
+          </div>
+          <DeleteStaff
+            onDeleteStaff={(id) => this.handleDeleteStaff(id)}
+            idStaff={this.props.staff.id}
+          />
         </div>
         <Card>
           <div className="row">

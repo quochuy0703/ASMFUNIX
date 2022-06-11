@@ -68,9 +68,24 @@ export const postStaff = (newStaff) => (dispatch) => {
     .catch((err) => console.log(err.message));
 };
 
+export const postDeleteStaff = (id) => (dispatch) => {
+  return fetch(baseUrl + "staffs/" + id, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+  })
+    .then((res) => res.json())
+    .then((res) => dispatch(deleteStaff(id)));
+};
+
 export const addStaff = (newStaff) => ({
   type: ActionTypes.ADD_STAFF,
   payload: newStaff,
+});
+
+export const deleteStaff = (id) => ({
+  type: ActionTypes.DELETE_STAFF,
+  payload: id,
 });
 
 export const fetchDepts = () => (dispatch) => {

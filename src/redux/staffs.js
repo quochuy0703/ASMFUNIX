@@ -19,6 +19,18 @@ export const Staffs = (
         errMess: null,
         staffs: state.staffs.concat(action.payload),
       };
+    case ActionTypes.DELETE_STAFF: {
+      let newStaff = state.staffs;
+      let index = newStaff.findIndex((item) => item.id === action.payload);
+      newStaff.splice(index, 1);
+      return {
+        ...state,
+        isLoading: false,
+        errMess: null,
+        staffs: [...newStaff],
+      };
+    }
+
     case ActionTypes.STAFFS_LOADING:
       return {
         ...state,
