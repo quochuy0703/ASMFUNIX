@@ -97,7 +97,7 @@ class UpdateStaff extends Component {
     return (
       <div className="col-md-4 col-sm-12 col-xs-12">
         <Button color="primary" onClick={this.handleAdd}>
-          Cap nhat
+          Cập nhật
         </Button>
         <Modal isOpen={this.state.isOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>
