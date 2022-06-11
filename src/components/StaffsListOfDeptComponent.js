@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Card, CardImg, CardBody, CardTitle, Row } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardBody,
+  CardTitle,
+  Row,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
 import { Link } from "react-router-dom";
 
 import SearchStaff from "./SearchStaff";
@@ -124,6 +132,20 @@ class StaffListOfDept extends Component {
       return (
         <div className="container">
           <h1>Nhân Viên</h1>
+          <div className="row">
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <Link to="/dept">Phòng ban</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                {
+                  this.props.depts.filter(
+                    (item) => item.id === this.props.deptID
+                  )[0].name
+                }
+              </BreadcrumbItem>
+            </Breadcrumb>
+          </div>
 
           <div className="row">
             <SearchStaff onSearch={this.handleSearch} />
