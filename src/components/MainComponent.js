@@ -17,9 +17,6 @@ import {
   fetchDepts,
   fetchSalary,
   fetchStaffOfDept,
-  postStaff,
-  postDeleteStaff,
-  patchUpdateStaff,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
@@ -37,14 +34,16 @@ const mapDispatchToProps = (dispatch) => ({
   fetchDepts: () => dispatch(fetchDepts()),
   fetchSalary: () => dispatch(fetchSalary()),
   fetchStaffOfDept: (deptID) => dispatch(fetchStaffOfDept(deptID)),
-  postStaff: (newStaff) => dispatch(postStaff(newStaff)),
-  postDeleteStaff: (id) => dispatch(postDeleteStaff(id)),
-  patchUpdateStaff: (infoStaff) => dispatch(patchUpdateStaff(infoStaff)),
 });
 
 class Main extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      staffs: this.props.staffs,
+      depts: this.props.depts,
+      nextID: 0,
+    };
 
     this.handleAddStaff = this.handleAddStaff.bind(this);
   }
@@ -54,18 +53,10 @@ class Main extends Component {
   }
   componentDidMount() {
     console.log("did mount");
-
     this.props.fetchDepts();
     this.props.fetchStaffs();
 
     this.props.fetchSalary();
-  }
-
-  onDeleteStaff(id) {
-    this.props.postDeleteStaff(id);
-  }
-  onUpdateStaff(infoStaff) {
-    this.props.patchUpdateStaff(infoStaff);
   }
 
   render() {
@@ -77,8 +68,6 @@ class Main extends Component {
               (item) => item.id === parseInt(match.params.id, 10)
             )[0]
           }
-          onDeleteStaff={(id) => this.onDeleteStaff(id)}
-          onUpdateStaff={(infoStaff) => this.onUpdateStaff(infoStaff)}
           depts={this.props.depts.depts}
         />
       );
@@ -111,7 +100,6 @@ class Main extends Component {
                 staffs={this.props.staffsOfDept.staffs}
                 loadingStaffs={this.props.staffsOfDept.isLoading}
                 failedStaffs={this.props.staffsOfDept.errMess}
-                depts={this.props.depts.depts}
               />
             )}
           />

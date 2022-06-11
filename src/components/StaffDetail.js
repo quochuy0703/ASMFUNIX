@@ -2,42 +2,28 @@ import React, { Component } from "react";
 import { Card, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
-import DeleteStaff from "./DeleteStaff";
-import UpdateStaff from "./UpdateStaff";
 
 class StaffDetail extends Component {
   constructor(props) {
     super(props);
   }
 
-  handleDeleteStaff(id) {
-    console.log("handle delete staff");
-    this.props.onDeleteStaff(id);
-  }
-
-  handleUpdateStaff(infoStaff) {
-    this.props.onUpdateStaff(infoStaff);
-  }
-
   render() {
     return (
       <div className="container">
         <div className="row">
-          <div className="breadcrumbs col-md-4 col-sm-12 col-xs-12">
-            <span className="breadcrumbs__item">
+          {/* <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/staff">Nhân Viên</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{this.props.staff.name}</BreadcrumbItem>
+          </Breadcrumb> */}
+          <nav class="breadcrumbs">
+            <span class="breadcrumbs__item">
               <Link to="/staff">Nhân Viên</Link>
             </span>
-            <span className="breadcrumbs__item">{this.props.staff.name}</span>
-          </div>
-          <DeleteStaff
-            onDeleteStaff={(id) => this.handleDeleteStaff(id)}
-            idStaff={this.props.staff.id}
-          />
-          <UpdateStaff
-            depts={this.props.depts}
-            staff={this.props.staff}
-            onUpdateStaff={(infoStaff) => this.handleUpdateStaff(infoStaff)}
-          />
+            <span class="breadcrumbs__item">{this.props.staff.name}</span>
+          </nav>
         </div>
         <Card>
           <div className="row">
@@ -58,13 +44,11 @@ class StaffDetail extends Component {
               </p>
               <p>
                 Phòng ban:{" "}
-                {this.props.depts.some(
-                  (item) => item.id === this.props.staff.departmentId
-                )
-                  ? this.props.depts.filter(
-                      (item) => item.id === this.props.staff.departmentId
-                    )[0].name
-                  : ""}
+                {
+                  this.props.depts.filter(
+                    (item) => item.id === this.props.staff.departmentId
+                  )[0].name
+                }
               </p>
               <p>Số ngày nghỉ còn lại: {this.props.staff.annualLeave}</p>
               <p>Số ngày làm thêm: {this.props.staff.overTime}</p>
