@@ -27,7 +27,7 @@ class DeptComponent extends Component {
     if (this.props.loadingDepts) {
       return <Loading />;
     } else if (this.props.failedDepts) {
-      return <h4>this.props.failedDepts</h4>;
+      return <h4>{this.props.failedDepts}</h4>;
     } else {
       const list = this.props.depts.map((dept) => {
         return (
