@@ -44,11 +44,13 @@ class StaffDetail extends Component {
               </p>
               <p>
                 Phòng ban:{" "}
-                {
-                  this.props.depts.filter(
-                    (item) => item.id === this.props.staff.departmentId
-                  )[0].name
-                }
+                {this.props.depts.some(
+                  (item) => item.id === this.props.staff.departmentId
+                )
+                  ? this.props.depts.filter(
+                      (item) => item.id === this.props.staff.departmentId
+                    )[0].name
+                  : ""}
               </p>
               <p>Số ngày nghỉ còn lại: {this.props.staff.annualLeave}</p>
               <p>Số ngày làm thêm: {this.props.staff.overTime}</p>
