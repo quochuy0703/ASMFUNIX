@@ -117,7 +117,7 @@ class StaffListOfDept extends Component {
             style={{ textDecoration: "none" }}
             to={`/staff/${staff.id}`}
           >
-            <CardStaff key={staff.id} staff={staff} />
+            <CardStaff key={staff.id} staff={staff} depts={this.props.depts} />
           </Link>
         );
       });

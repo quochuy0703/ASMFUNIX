@@ -46,8 +46,26 @@ export const postStaff = (newStaff) => (dispatch) => {
     headers: { "Content-Type": "application/json" },
     credentials: "same-origin",
   })
+    .then(
+      (res) => {
+        if (res.ok) {
+          return res;
+        } else {
+          let err = new Error("Error " + res.status + ": " + res.statusText);
+          err.response = res;
+          throw err;
+        }
+      },
+      (error) => {
+        let err = new Error(error.message);
+        throw err;
+      }
+    )
     .then((res) => res.json())
-    .then((res) => dispatch(addStaff(res)));
+    .then((res) => {
+      dispatch(addStaff(res[res.length - 1]));
+    })
+    .catch((err) => console.log(err.message));
 };
 
 export const addStaff = (newStaff) => ({

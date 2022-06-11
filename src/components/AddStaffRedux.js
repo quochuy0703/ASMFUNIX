@@ -42,13 +42,16 @@ class AddStaffRedux extends Component {
       doB: new Date(values.doB).toISOString(),
       salaryScale: Number(values.salaryScale),
       startDate: new Date(values.startDate).toISOString(),
-      department: { name: values.department },
+      departmentId: values.department,
       annualLeave: Number(values.annualLeave),
       overTime: Number(values.overTime),
-      salary: "",
+      salary: Math.trunc(
+        Number(values.salaryScale) * 3000000 + Number(values.overTime) * 200000
+      ),
       image: "/assets/images/alberto.png",
     };
     this.props.onAddStaff(newStaff);
+    // alert(JSON.stringify(newStaff));
 
     this.toggleModal();
   }
@@ -61,6 +64,13 @@ class AddStaffRedux extends Component {
     const lessThan = (num) => (val) => !val || Number(val) <= num;
     const isNumber = (val) => !isNaN(Number(val));
 
+    let listDepts = this.props.depts.map((item) => {
+      return (
+        <option key={item.id} value={item.id}>
+          {item.name}
+        </option>
+      );
+    });
     return (
       <div className="col-md-4 col-sm-12 col-xs-12">
         <Button color="primary" onClick={this.handleAdd}>
@@ -144,14 +154,17 @@ class AddStaffRedux extends Component {
                     model=".department"
                     id="department"
                     name="department"
-                    defaultValue="IT"
+                    defaultValue={
+                      this.props.depts ? this.props.depts[0].id : ""
+                    }
                     className="form-control"
                   >
-                    <option>IT</option>
+                    {/* <option>IT</option>
                     <option>Sale</option>
                     <option>HR</option>
                     <option>Marketing</option>
-                    <option>Finance</option>
+                    <option>Finance</option> */}
+                    {listDepts}
                   </Control.select>
                 </Col>
               </Row>

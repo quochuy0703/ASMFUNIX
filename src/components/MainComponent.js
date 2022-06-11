@@ -41,46 +41,9 @@ const mapDispatchToProps = (dispatch) => ({
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      staffs: this.props.staffs,
-      depts: this.props.depts,
-      nextID: 0,
-    };
 
     this.handleAddStaff = this.handleAddStaff.bind(this);
   }
-
-  // handleAddStaff(staff) {
-  //   const newID = this.state.nextID + 1;
-  //   staff = { ...staff, id: newID };
-  //   let arrayStaff = JSON.parse(JSON.stringify(this.state.staffs));
-  //   arrayStaff.push(staff);
-
-  //   let arrayDepts = JSON.parse(JSON.stringify(this.state.depts));
-
-  //   console.log(this.state.depts);
-
-  //   arrayDepts = arrayDepts.map((item) => {
-  //     if (item.name === staff.department.name) {
-  //       item.numberOfStaff++;
-  //     }
-  //     return item;
-  //   });
-
-  //   console.log(arrayDepts);
-
-  //   this.setState(
-  //     (prevState) => ({
-  //       staffs: arrayStaff,
-  //       nextID: newID,
-  //       depts: arrayDepts,
-  //     }),
-  //     () => {
-  //       localStorage.setItem("staffs", JSON.stringify(this.state.staffs));
-  //       localStorage.setItem("depts", JSON.stringify(this.state.depts));
-  //     }
-  //   );
-  // }
 
   handleAddStaff(newStaff) {
     this.props.postStaff(newStaff);
@@ -88,31 +51,8 @@ class Main extends Component {
   componentDidMount() {
     console.log("did mount");
 
-    this.props.fetchStaffs();
-    //lấy dữ liệu staff từ localStorage
-    // let dataStaff = localStorage.getItem("staffs");
-    // if (dataStaff) {
-    //   this.setState({
-    //     staffs: JSON.parse(dataStaff),
-    //   });
-    // }
-
     this.props.fetchDepts();
-    // //lấy dữ liệu depts từ localStorage
-    // let dataDept = localStorage.getItem("depts");
-    // if (dataDept) {
-    //   this.setState({
-    //     depts: JSON.parse(dataDept),
-    //   });
-    // }
-
-    // //tính toán id tiếp theo cho staff
-    // const listID = this.state.staffs.map((item) => item.id);
-    // const max = Math.max(...listID);
-    // console.log(max);
-    // this.setState({
-    //   nextID: max,
-    // });
+    this.props.fetchStaffs();
 
     this.props.fetchSalary();
   }
@@ -126,6 +66,7 @@ class Main extends Component {
               (item) => item.id === parseInt(match.params.id, 10)
             )[0]
           }
+          depts={this.props.depts.depts}
         />
       );
     };
@@ -142,6 +83,7 @@ class Main extends Component {
                 staffs={this.props.staffs.staffs}
                 loadingStaffs={this.props.staffs.isLoading}
                 failedStaffs={this.props.staffs.errMess}
+                depts={this.props.depts.depts}
               />
             )}
           />
@@ -156,6 +98,7 @@ class Main extends Component {
                 staffs={this.props.staffsOfDept.staffs}
                 loadingStaffs={this.props.staffsOfDept.isLoading}
                 failedStaffs={this.props.staffsOfDept.errMess}
+                depts={this.props.depts.depts}
               />
             )}
           />
