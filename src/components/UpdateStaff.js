@@ -69,7 +69,10 @@ class UpdateStaff extends Component {
       }
     }
     tempStaff.id = this.props.staff.id;
-    this.props.onUpdateStaff(tempStaff);
+    let payload = {};
+    payload.old = this.props.staff;
+    payload.new = tempStaff;
+    this.props.onUpdateStaff(payload);
     // alert(JSON.stringify(tempStaff));
 
     this.toggleModal();

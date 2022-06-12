@@ -63,6 +63,7 @@ export const postStaff = (newStaff) => (dispatch) => {
     .then((res) => res.json())
     .then((res) => {
       dispatch(addStaff(res[res.length - 1]));
+      dispatch(updateDept(newStaff));
     })
     .catch((err) => console.log(err.message));
 };
@@ -96,7 +97,7 @@ export const postDeleteStaff = (id) => (dispatch) => {
 export const patchUpdateStaff = (infoStaff) => (dispatch) => {
   return fetch(baseUrl + "staffs", {
     method: "PATCH",
-    body: JSON.stringify(infoStaff),
+    body: JSON.stringify(infoStaff.new),
     headers: { "Content-Type": "application/json" },
     credentials: "same-origin",
   })
@@ -116,7 +117,12 @@ export const patchUpdateStaff = (infoStaff) => (dispatch) => {
       }
     )
     .then((res) => res.json())
-    .then((res) => dispatch(updateStaff(infoStaff)))
+    .then((res) => {
+      if ("departmentId" in infoStaff.new) {
+        dispatch(updateDept2(infoStaff));
+      }
+      dispatch(updateStaff(infoStaff.new));
+    })
     .catch((err) => dispatch(failedStaffs(err.message)));
 };
 
@@ -168,6 +174,16 @@ export const loadingDepts = () => ({
 export const failedDepts = (errMess) => ({
   type: ActionTypes.DEPT_FAILED,
   payload: errMess,
+});
+
+export const updateDept = (newStaff) => ({
+  type: ActionTypes.UPDATE_DEPT,
+  payload: newStaff,
+});
+
+export const updateDept2 = (infoStaff) => ({
+  type: ActionTypes.UPDATE_DEPT_2,
+  payload: infoStaff,
 });
 
 export const fetchSalary = () => (dispatch) => {

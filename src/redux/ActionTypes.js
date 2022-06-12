@@ -6,6 +6,8 @@ export const DELETE_STAFF = "DELETE_STAFF";
 export const UPDATE_STAFF = "UPDATE_STAFF";
 
 export const ADD_DEPT = "ADD_DEPT";
+export const UPDATE_DEPT = "UPDATE_DEPT";
+export const UPDATE_DEPT_2 = "UPDATE_DEPT_2";
 export const DEPT_LOADING = "DEPT_LOADING";
 export const DEPT_FAILED = "DEPT_FAILED";
 
