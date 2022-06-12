@@ -80,7 +80,7 @@ class StaffList extends Component {
     if (this.props.loadingStaffs) {
       return <Loading />;
     } else if (this.props.failedStaffs) {
-      return <h4>this.props.failedStaffs</h4>;
+      return <h4>{this.props.failedStaffs}</h4>;
     } else {
       //xử lý tìm kiếm theo tên
       let listTemp;
