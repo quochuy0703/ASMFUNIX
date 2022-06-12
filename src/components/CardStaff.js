@@ -11,7 +11,7 @@ export default class CardStaff extends Component {
       <div className="container_card">
         <div className="header">
           <div className="header_left">
-            <input type="checkbox" />
+            <input type="checkbox" onClick={(e) => e.preventDefault()} />
           </div>
           <div className="header_right">
             {/* <div className="header_button">
