@@ -29,15 +29,19 @@ class StaffDetail extends Component {
             </span>
             <span className="breadcrumbs__item">{this.props.staff.name}</span>
           </div>
-          <DeleteStaff
-            onDeleteStaff={(id) => this.handleDeleteStaff(id)}
-            idStaff={this.props.staff.id}
-          />
-          <UpdateStaff
-            depts={this.props.depts}
-            staff={this.props.staff}
-            onUpdateStaff={(infoStaff) => this.handleUpdateStaff(infoStaff)}
-          />
+          <div className="col-md-8 col-sm-12 col-xs-12">
+            <div className="row align-items-center h-100">
+              <DeleteStaff
+                onDeleteStaff={(id) => this.handleDeleteStaff(id)}
+                idStaff={this.props.staff.id}
+              />
+              <UpdateStaff
+                depts={this.props.depts}
+                staff={this.props.staff}
+                onUpdateStaff={(infoStaff) => this.handleUpdateStaff(infoStaff)}
+              />
+            </div>
+          </div>
         </div>
         <Card>
           <div className="row">

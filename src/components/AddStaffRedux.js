@@ -245,7 +245,7 @@ class AddStaffRedux extends Component {
                   />
                 </Col>
               </Row>
-              <Row className="form-group">
+              <Row className="form-group justify-content-center">
                 <Button type="submit" color="primary">
                   Thêm
                 </Button>

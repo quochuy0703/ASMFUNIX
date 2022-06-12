@@ -32,39 +32,39 @@ class DeleteStaff extends Component {
   render() {
     return (
       <div className="col-md-4 col-sm-12 col-xs-12">
-        <div className="row text-center">
-          <Button
-            color="danger"
-            className="col-4"
-            onClick={(e) => this.handleDeleteStaff(e)}
-          >
-            Xoá
-          </Button>
-          <Modal isOpen={this.state.isOpen} toggle={this.handleToggleModal}>
-            <ModalHeader toggle={this.handleToggleModal}>
-              Xoá nhân viên
-            </ModalHeader>
-            <ModalBody>Bạn chắc chắn muốn xoá nhân viên này?</ModalBody>
-            <ModalFooter>
-              <Button
-                color="primary"
-                onClick={(e) => {
-                  this.handleDeleteStaffYes(e, this.props.idStaff);
-                }}
-              >
-                Có
-              </Button>{" "}
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.handleToggleModal();
-                }}
-              >
-                Không
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </div>
+        <Button
+          color="danger"
+          className="form-control"
+          onClick={(e) => this.handleDeleteStaff(e)}
+        >
+          Xoá
+        </Button>
+        <Modal isOpen={this.state.isOpen} toggle={this.handleToggleModal}>
+          <ModalHeader toggle={this.handleToggleModal}>
+            Xoá nhân viên
+          </ModalHeader>
+          <ModalBody>Bạn chắc chắn muốn xoá nhân viên này?</ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              className="col-4"
+              onClick={(e) => {
+                this.handleDeleteStaffYes(e, this.props.idStaff);
+              }}
+            >
+              Có
+            </Button>{" "}
+            <Button
+              className="col-4"
+              onClick={(e) => {
+                e.preventDefault();
+                this.handleToggleModal();
+              }}
+            >
+              Không
+            </Button>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }
