@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { Switch, Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class DeleteStaff extends Component {
   constructor(props) {
