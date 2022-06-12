@@ -1,16 +1,10 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-  Breadcrumb,
-  BreadcrumbItem,
-} from "reactstrap";
+import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
-import dateFormat from "dateformat";
+
 import SortSalary from "./SortSalary";
 import CardSalary from "./CardSalary";
+import { Loading } from "./LoadingComponent";
 
 class SalaryDetail extends Component {
   constructor(props) {
@@ -53,53 +47,59 @@ class SalaryDetail extends Component {
   };
 
   render() {
-    let listTemp = [...this.props.staffs];
-    //xử lý sort
-    if (this.state.orderBy) {
-      let sortFunc;
-      if (this.state.orderBy === "id") {
-        sortFunc = this.sortByID;
-      } else {
-        sortFunc = this.sortBySalary;
-      }
-      listTemp.sort(sortFunc);
-    }
-
-    //sắp xếp tăng dần hoặc giảm dần
-    if (this.state.sortDir === "asc") {
+    if (this.props.loadingSalary) {
+      return <Loading />;
+    } else if (this.props.failedSalary) {
+      return <h4>{this.props.failedSalary}</h4>;
     } else {
-      listTemp.reverse();
-    }
+      let listTemp = [...this.props.staffs];
+      //xử lý sort
+      if (this.state.orderBy) {
+        let sortFunc;
+        if (this.state.orderBy === "id") {
+          sortFunc = this.sortByID;
+        } else {
+          sortFunc = this.sortBySalary;
+        }
+        listTemp.sort(sortFunc);
+      }
 
-    //list chứa danh sách nhân viên
-    const list = listTemp.map((staff) => {
+      //sắp xếp tăng dần hoặc giảm dần
+      if (this.state.sortDir === "asc") {
+      } else {
+        listTemp.reverse();
+      }
+
+      //list chứa danh sách nhân viên
+      const list = listTemp.map((staff) => {
+        return (
+          <div className="my-1 col-md-4 col-sm-6 col-xs-12" key={staff.id}>
+            <CardSalary staff={staff} />
+          </div>
+        );
+      });
       return (
-        <div className="my-1 col-md-4 col-sm-6 col-xs-12" key={staff.id}>
-          <CardSalary staff={staff} />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4 col-sm-4 col-xs-12">
+              <Breadcrumb>
+                <BreadcrumbItem>
+                  <Link to="/staff">Nhân viên</Link>
+                </BreadcrumbItem>
+                <BreadcrumbItem active>Bảng Lương</BreadcrumbItem>
+              </Breadcrumb>
+            </div>
+            <div className="col-md-6 col-sm-6 col-xs-12">
+              <SortSalary
+                onClick={this.handleClick}
+                onHandleDir={this.handleDir}
+              />
+            </div>
+          </div>
+          <div className="row">{list}</div>
         </div>
       );
-    });
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4 col-sm-4 col-xs-12">
-            <Breadcrumb>
-              <BreadcrumbItem>
-                <Link to="/staff">Nhân viên</Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem active>Bảng Lương</BreadcrumbItem>
-            </Breadcrumb>
-          </div>
-          <div className="col-md-6 col-sm-6 col-xs-12">
-            <SortSalary
-              onClick={this.handleClick}
-              onHandleDir={this.handleDir}
-            />
-          </div>
-        </div>
-        <div className="row">{list}</div>
-      </div>
-    );
+    }
   }
 }
 

@@ -130,7 +130,13 @@ class Main extends Component {
           <Route
             exact
             path="/salary"
-            component={() => <SalaryDetail staffs={this.props.salary.salary} />}
+            component={() => (
+              <SalaryDetail
+                staffs={this.props.salary.salary}
+                loadingSalary={this.props.salary.isLoading}
+                failedSalary={this.props.salary.errMess}
+              />
+            )}
           />
           <Redirect to="/staff" />
         </Switch>
