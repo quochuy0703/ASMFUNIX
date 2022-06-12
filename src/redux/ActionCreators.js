@@ -118,8 +118,12 @@ export const patchUpdateStaff = (infoStaff) => (dispatch) => {
     )
     .then((res) => res.json())
     .then((res) => {
-      if ("departmentId" in infoStaff.new) {
-        dispatch(updateDept2(infoStaff));
+      if ("departmentId" in infoStaff.new && "departmentId" in infoStaff.old) {
+        if (
+          infoStaff.new.departmentId !== "" &&
+          infoStaff.old.departmentId !== ""
+        )
+          dispatch(updateDept2(infoStaff));
       }
       dispatch(updateStaff(infoStaff.new));
     })
@@ -221,7 +225,7 @@ export const failedSalary = (errMess) => ({
 
 export const fetchStaffOfDept = (id) => (dispatch) => {
   dispatch(loadingStaffsOfDept());
-  console.log("fetchStaffOfDept: " + id);
+
   return fetch(baseUrl + "departments/" + id)
     .then(
       (res) => {
