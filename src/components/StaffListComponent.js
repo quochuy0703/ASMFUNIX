@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardImg, CardBody, CardTitle, Row } from "reactstrap";
+import { Row } from "reactstrap";
 import { Link } from "react-router-dom";
 
 import SearchStaff from "./SearchStaff";

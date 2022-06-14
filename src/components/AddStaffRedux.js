@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import {
   Button,
-  Form,
-  FormGroup,
   Label,
-  Input,
   Modal,
   ModalHeader,
   ModalBody,
   Col,
   Row,
-  FormFeedback,
 } from "reactstrap";
 
 import { LocalForm, Control, Errors } from "react-redux-form";
