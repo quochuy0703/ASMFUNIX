@@ -9,6 +9,8 @@ import {
   Row,
 } from "reactstrap";
 
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+
 import { LocalForm, Control, Errors } from "react-redux-form";
 
 class AddStaffRedux extends Component {
@@ -72,183 +74,191 @@ class AddStaffRedux extends Component {
         <Button color="primary" onClick={this.handleAdd}>
           Thêm
         </Button>
-        <Modal isOpen={this.state.isOpen} toggle={this.toggleModal}>
-          <ModalHeader toggle={this.toggleModal}>Thêm nhân viên</ModalHeader>
-          <ModalBody>
-            <LocalForm onSubmit={(values, e) => this.handleClickAdd(values, e)}>
-              <Row className="form-group">
-                <Col md={4}>
-                  <Label htmlFor="name">Tên</Label>
-                </Col>
-                <Col md={8}>
-                  <Control.text
-                    model=".name"
-                    id="name"
-                    name="name"
-                    className="form-control"
-                    validators={{ required, maxLength: maxLength(30) }}
-                  />
-                  <Errors
-                    model=".name"
-                    show="touched"
-                    className="text-danger"
-                    messages={{
-                      required: "Yêu cầu nhập",
-                      maxLength: "Yêu cầu ít hơn 30 ký tự",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Col md={4}>
-                  <Label htmlFor="doB">Ngày Sinh</Label>
-                </Col>
-                <Col md={8}>
-                  <Control
-                    type="date"
-                    model=".doB"
-                    id="doB"
-                    name="doB"
-                    className="form-control"
-                    validators={{ required }}
-                  />
-                  <Errors
-                    model=".doB"
-                    show="touched"
-                    className="text-danger"
-                    messages={{ required: "Yêu cầu nhập" }}
-                  />
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Col md={4}>
-                  <Label htmlFor="startDate">Ngày vào công ty</Label>
-                </Col>
-                <Col md={8}>
-                  <Control
-                    model=".startDate"
-                    type="date"
-                    id="startDate"
-                    name="startDate"
-                    className="form-control"
-                    validators={{ required }}
-                  />
-                  <Errors
-                    model=".startDate"
-                    show="touched"
-                    className="text-danger"
-                    messages={{ required: "Yêu cầu nhập" }}
-                  />
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Col md={4}>
-                  <Label htmlFor="department">Phòng ban</Label>
-                </Col>
-                <Col md={8}>
-                  <Control.select
-                    model=".department"
-                    id="department"
-                    name="department"
-                    defaultValue={
-                      this.props.depts ? this.props.depts[0].id : ""
-                    }
-                    className="form-control"
-                  >
-                    {/* <option>IT</option>
+        <TransitionGroup>
+          <CSSTransition classNames="page" timeout={300}>
+            <Modal isOpen={this.state.isOpen} toggle={this.toggleModal}>
+              <ModalHeader toggle={this.toggleModal}>
+                Thêm nhân viên
+              </ModalHeader>
+              <ModalBody>
+                <LocalForm
+                  onSubmit={(values, e) => this.handleClickAdd(values, e)}
+                >
+                  <Row className="form-group">
+                    <Col md={4}>
+                      <Label htmlFor="name">Tên</Label>
+                    </Col>
+                    <Col md={8}>
+                      <Control.text
+                        model=".name"
+                        id="name"
+                        name="name"
+                        className="form-control"
+                        validators={{ required, maxLength: maxLength(30) }}
+                      />
+                      <Errors
+                        model=".name"
+                        show="touched"
+                        className="text-danger"
+                        messages={{
+                          required: "Yêu cầu nhập",
+                          maxLength: "Yêu cầu ít hơn 30 ký tự",
+                        }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="form-group">
+                    <Col md={4}>
+                      <Label htmlFor="doB">Ngày Sinh</Label>
+                    </Col>
+                    <Col md={8}>
+                      <Control
+                        type="date"
+                        model=".doB"
+                        id="doB"
+                        name="doB"
+                        className="form-control"
+                        validators={{ required }}
+                      />
+                      <Errors
+                        model=".doB"
+                        show="touched"
+                        className="text-danger"
+                        messages={{ required: "Yêu cầu nhập" }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="form-group">
+                    <Col md={4}>
+                      <Label htmlFor="startDate">Ngày vào công ty</Label>
+                    </Col>
+                    <Col md={8}>
+                      <Control
+                        model=".startDate"
+                        type="date"
+                        id="startDate"
+                        name="startDate"
+                        className="form-control"
+                        validators={{ required }}
+                      />
+                      <Errors
+                        model=".startDate"
+                        show="touched"
+                        className="text-danger"
+                        messages={{ required: "Yêu cầu nhập" }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="form-group">
+                    <Col md={4}>
+                      <Label htmlFor="department">Phòng ban</Label>
+                    </Col>
+                    <Col md={8}>
+                      <Control.select
+                        model=".department"
+                        id="department"
+                        name="department"
+                        defaultValue={
+                          this.props.depts ? this.props.depts[0].id : ""
+                        }
+                        className="form-control"
+                      >
+                        {/* <option>IT</option>
                     <option>Sale</option>
                     <option>HR</option>
                     <option>Marketing</option>
                     <option>Finance</option> */}
-                    {listDepts}
-                  </Control.select>
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Col md={4}>
-                  <Label htmlFor="salaryScale">Hệ số lương</Label>
-                </Col>
-                <Col md={8}>
-                  <Control.text
-                    model=".salaryScale"
-                    id="salaryScale"
-                    name="salaryScale"
-                    className="form-control"
-                    placeholder="1.0 -> 3.0"
-                    defaultValue={1}
-                    validators={{
-                      isNumber,
-                      greatThan: greatThan(1.0),
-                      lessThan: lessThan(3.0),
-                    }}
-                  />
-                  <Errors
-                    model=".salaryScale"
-                    show="touched"
-                    className="text-danger"
-                    messages={{
-                      isNumber: "Phải là một số",
-                      lessThan: "Phải nhỏ hơn 3.0",
-                      greatThan: "Phải lớn hơn 1.0",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Col md={4}>
-                  <Label htmlFor="annualLeave">Số ngày nghỉ còn lại</Label>
-                </Col>
-                <Col md={8}>
-                  <Control.text
-                    model=".annualLeave"
-                    id="annualLeave"
-                    name="annualLeave"
-                    className="form-control"
-                    placeholder="1.0"
-                    defaultValue={0}
-                    validators={{ isNumber }}
-                  />
-                  <Errors
-                    model=".annualLeave"
-                    show="touched"
-                    className="text-danger"
-                    messages={{
-                      isNumber: "Phải là một số",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row className="form-group">
-                <Col md={4}>
-                  <Label htmlFor="overTime">Số ngày làm thêm</Label>
-                </Col>
-                <Col md={8}>
-                  <Control.text
-                    model=".overTime"
-                    id="overTime"
-                    name="overTime"
-                    className="form-control"
-                    defaultValue={0}
-                    validators={{ isNumber }}
-                  />
-                  <Errors
-                    model=".overTime"
-                    show="touched"
-                    className="text-danger"
-                    messages={{
-                      isNumber: "Phải là một số",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row className="form-group justify-content-center">
-                <Button type="submit" color="primary">
-                  Thêm
-                </Button>
-              </Row>
-            </LocalForm>
-          </ModalBody>
-        </Modal>
+                        {listDepts}
+                      </Control.select>
+                    </Col>
+                  </Row>
+                  <Row className="form-group">
+                    <Col md={4}>
+                      <Label htmlFor="salaryScale">Hệ số lương</Label>
+                    </Col>
+                    <Col md={8}>
+                      <Control.text
+                        model=".salaryScale"
+                        id="salaryScale"
+                        name="salaryScale"
+                        className="form-control"
+                        placeholder="1.0 -> 3.0"
+                        defaultValue={1}
+                        validators={{
+                          isNumber,
+                          greatThan: greatThan(1.0),
+                          lessThan: lessThan(3.0),
+                        }}
+                      />
+                      <Errors
+                        model=".salaryScale"
+                        show="touched"
+                        className="text-danger"
+                        messages={{
+                          isNumber: "Phải là một số",
+                          lessThan: "Phải nhỏ hơn 3.0",
+                          greatThan: "Phải lớn hơn 1.0",
+                        }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="form-group">
+                    <Col md={4}>
+                      <Label htmlFor="annualLeave">Số ngày nghỉ còn lại</Label>
+                    </Col>
+                    <Col md={8}>
+                      <Control.text
+                        model=".annualLeave"
+                        id="annualLeave"
+                        name="annualLeave"
+                        className="form-control"
+                        placeholder="1.0"
+                        defaultValue={0}
+                        validators={{ isNumber }}
+                      />
+                      <Errors
+                        model=".annualLeave"
+                        show="touched"
+                        className="text-danger"
+                        messages={{
+                          isNumber: "Phải là một số",
+                        }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="form-group">
+                    <Col md={4}>
+                      <Label htmlFor="overTime">Số ngày làm thêm</Label>
+                    </Col>
+                    <Col md={8}>
+                      <Control.text
+                        model=".overTime"
+                        id="overTime"
+                        name="overTime"
+                        className="form-control"
+                        defaultValue={0}
+                        validators={{ isNumber }}
+                      />
+                      <Errors
+                        model=".overTime"
+                        show="touched"
+                        className="text-danger"
+                        messages={{
+                          isNumber: "Phải là một số",
+                        }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="form-group justify-content-center">
+                    <Button type="submit" color="primary">
+                      Thêm
+                    </Button>
+                  </Row>
+                </LocalForm>
+              </ModalBody>
+            </Modal>
+          </CSSTransition>
+        </TransitionGroup>
       </div>
     );
   }
