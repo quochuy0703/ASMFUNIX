@@ -108,6 +108,7 @@ class Main extends Component {
                     staffs={this.props.staffsOfDept.staffs}
                     loadingStaffs={this.props.staffsOfDept.isLoading}
                     failedStaffs={this.props.staffsOfDept.errMess}
+                    depts={this.props.depts.depts}
                   />
                 )}
               />
