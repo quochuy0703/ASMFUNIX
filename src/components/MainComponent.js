@@ -109,6 +109,18 @@ class Main extends Component {
                 )}
               />
               <Route exact path="/staff/:id" component={staffWithID} />
+
+              <Route
+                exact
+                path="/dept"
+                component={() => (
+                  <DeptComponent
+                    depts={this.props.depts.depts}
+                    loadingDepts={this.props.depts.isLoading}
+                    failedDepts={this.props.depts.errMess}
+                  />
+                )}
+              />
               <Route
                 exact
                 path="/dept/:id"
@@ -120,18 +132,6 @@ class Main extends Component {
                     loadingStaffs={this.props.staffsOfDept.isLoading}
                     failedStaffs={this.props.staffsOfDept.errMess}
                     depts={this.props.depts.depts}
-                  />
-                )}
-              />
-
-              <Route
-                exact
-                path="/dept"
-                component={() => (
-                  <DeptComponent
-                    depts={this.props.depts.depts}
-                    loadingDepts={this.props.depts.isLoading}
-                    failedDepts={this.props.depts.errMess}
                   />
                 )}
               />
